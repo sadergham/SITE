@@ -3,7 +3,7 @@
     "whatsapp": "5512996124117",
     "instagram": "https://www.instagram.com/atelierdasarah/",
     "instagram_usuario": "@atelierdasarah",
-    "cidade": "Ubatuba – SP",
+    "cidade": "Ubatuba – SP (teste)",
     "catalogo_link": "https://catalogoapp.mobi/8a2430d2-93ec-487d-9d32-019ed212aa38"
   },
   "inicio": {
@@ -11,7 +11,10 @@
     "titulo": "Que bom ter você",
     "titulo_destaque": "no nosso ateliê.",
     "texto": "Trajes para casamentos e festas, com opções para noivas e debutantes — em um atendimento exclusivo, com horário marcado só para você.",
-    "foto": { "imagem": "/fotos/sarah-arara.webp", "enquadramento": "center 40%" },
+    "foto": {
+      "imagem": "/fotos/sarah-arara.webp",
+      "enquadramento": "center 40%"
+    },
     "premio_titulo": "Premiado internacional e regionalmente",
     "premio_texto": "Reconhecimento em moda e atendimento",
     "selo": "Atelier premiado"
@@ -24,12 +27,27 @@
       "Sarah Dergham transformou a paixão pela moda em um atelier onde cada cliente é recebida como única. Com olhar atento aos detalhes, ela ajuda noivas, debutantes e convidadas a encontrar o traje que traduz quem elas são.",
       "No atelier, o atendimento é sempre com horário marcado: um momento tranquilo, só seu, para provar, ajustar e se encantar — com a experiência de um atelier premiado internacional e regionalmente."
     ],
-    "foto_principal": { "imagem": "/fotos/sarah.jpg", "enquadramento": "30% center" },
-    "foto_menor": { "imagem": "/fotos/debutante-3.jpg", "enquadramento": "center 40%" },
+    "foto_principal": {
+      "imagem": "/fotos/sarah.jpg",
+      "enquadramento": "30% center"
+    },
+    "foto_menor": {
+      "imagem": "/fotos/debutante-3.jpg",
+      "enquadramento": "center 40%"
+    },
     "numeros": [
-      { "valor": "8.6 mil", "rotulo": "Seguidoras" },
-      { "valor": "🥇", "rotulo": "Premiada" },
-      { "valor": "100%", "rotulo": "Exclusivo" }
+      {
+        "valor": "8.6 mil",
+        "rotulo": "Seguidoras"
+      },
+      {
+        "valor": "🥇",
+        "rotulo": "Premiada"
+      },
+      {
+        "valor": "100%",
+        "rotulo": "Exclusivo"
+      }
     ]
   },
   "colecoes": {
@@ -37,9 +55,33 @@
     "titulo_destaque": "momentos inesquecíveis",
     "texto": "Aluguel de vestidos selecionados, ajustados para você.",
     "cards": [
-      { "nome": "Noivas", "texto": "Vestidos que contam a sua história no dia mais especial.", "ocasiao": "Noiva", "foto": { "imagem": "/fotos/noiva-1.webp", "enquadramento": "center 25%" } },
-      { "nome": "Debutantes", "texto": "Brilho, leveza e encanto para celebrar os 15 anos.", "ocasiao": "Debutante", "foto": { "imagem": "/fotos/festa-2.jpg", "enquadramento": "center center" } },
-      { "nome": "Infantil & Daminhas", "texto": "Vestidos encantadores para as pequenas brilharem também.", "ocasiao": "Infantil / Daminha", "foto": { "imagem": "/fotos/daminha-1.jpg", "enquadramento": "center center" } }
+      {
+        "nome": "Noivas",
+        "texto": "Vestidos que contam a sua história no dia mais especial.",
+        "ocasiao": "Noiva",
+        "foto": {
+          "imagem": "/fotos/noiva-1.webp",
+          "enquadramento": "center 25%"
+        }
+      },
+      {
+        "nome": "Debutantes",
+        "texto": "Brilho, leveza e encanto para celebrar os 15 anos.",
+        "ocasiao": "Debutante",
+        "foto": {
+          "imagem": "/fotos/festa-2.jpg",
+          "enquadramento": "center center"
+        }
+      },
+      {
+        "nome": "Infantil & Daminhas",
+        "texto": "Vestidos encantadores para as pequenas brilharem também.",
+        "ocasiao": "Infantil / Daminha",
+        "foto": {
+          "imagem": "/fotos/daminha-1.jpg",
+          "enquadramento": "center center"
+        }
+      }
     ]
   },
   "catalogo": {
@@ -51,40 +93,91 @@
     "titulo": "Trajes que",
     "titulo_destaque": "encantam",
     "fotos": [
-      { "imagem": "/fotos/noiva-2.webp", "enquadramento": "center center" },
-      { "imagem": "/fotos/debutante-1.jpg", "enquadramento": "center center" },
-      { "imagem": "/fotos/noiva-3.webp", "enquadramento": "center center" },
-      { "imagem": "/fotos/debutante-2.jpg", "enquadramento": "center center" }
+      {
+        "imagem": "/fotos/noiva-2.webp",
+        "enquadramento": "center center"
+      },
+      {
+        "imagem": "/fotos/debutante-1.jpg",
+        "enquadramento": "center center"
+      },
+      {
+        "imagem": "/fotos/noiva-3.webp",
+        "enquadramento": "center center"
+      },
+      {
+        "imagem": "/fotos/debutante-2.jpg",
+        "enquadramento": "center center"
+      }
     ]
   },
   "como_funciona": {
     "passos": [
-      { "titulo": "Agende", "texto": "Escolha o melhor dia e horário pelo WhatsApp. O atelier fica reservado só para você." },
-      { "titulo": "Prove", "texto": "Experimente os modelos com calma, com a orientação da Sarah em cada detalhe." },
-      { "titulo": "Brilhe", "texto": "Seu traje é ajustado e preparado para que você viva o seu momento com segurança." }
+      {
+        "titulo": "Agende",
+        "texto": "Escolha o melhor dia e horário pelo WhatsApp. O atelier fica reservado só para você."
+      },
+      {
+        "titulo": "Prove",
+        "texto": "Experimente os modelos com calma, com a orientação da Sarah em cada detalhe."
+      },
+      {
+        "titulo": "Brilhe",
+        "texto": "Seu traje é ajustado e preparado para que você viva o seu momento com segurança."
+      }
     ]
   },
   "avaliacoes": {
     "texto": "Cada noiva, debutante e convidada que passa pelo atelier deixa a sua história. Veja os depoimentos reais das nossas clientes no destaque “Avaliações” do Instagram.",
-    "depoimentos": [],
     "numeros": [
-      { "valor": "8.6 mil", "rotulo": "Seguidoras no Instagram" },
-      { "valor": "🥇", "rotulo": "Prêmio internacional" }
+      {
+        "valor": "8.6 mil",
+        "rotulo": "Seguidoras no Instagram"
+      },
+      {
+        "valor": "🥇",
+        "rotulo": "Prêmio internacional"
+      }
     ]
   },
   "duvidas": [
-    { "pergunta": "Preciso agendar para visitar o atelier?", "resposta": "Sim. O atendimento é feito somente com horário marcado, para que você tenha atenção exclusiva e tempo para provar com calma. Agende pelo WhatsApp." },
-    { "pergunta": "Os vestidos são para aluguel?", "resposta": "Sim, trabalhamos com aluguel de trajes para noivas, debutantes, madrinhas, formandas e convidadas. Fale com a gente para saber sobre outras opções." },
-    { "pergunta": "Com quanto tempo de antecedência devo reservar?", "resposta": "Recomendamos reservar com a maior antecedência possível, principalmente para noivas e debutantes, para garantir o modelo e o tempo dos ajustes." },
-    { "pergunta": "Os ajustes estão inclusos?", "resposta": "Cada traje é preparado para vestir você com perfeição. Os detalhes sobre ajustes e prazos são combinados no seu atendimento." },
-    { "pergunta": "Posso levar acompanhantes na prova?", "resposta": "Claro! Avise no agendamento quantas pessoas virão com você para prepararmos o espaço com todo o conforto." },
-    { "pergunta": "Onde fica o atelier?", "resposta": "Estamos em Ubatuba – SP. O endereço completo é enviado na confirmação do seu horário." }
+    {
+      "pergunta": "Preciso agendar para visitar o atelier?",
+      "resposta": "Sim. O atendimento é feito somente com horário marcado, para que você tenha atenção exclusiva e tempo para provar com calma. Agende pelo WhatsApp."
+    },
+    {
+      "pergunta": "Os vestidos são para aluguel?",
+      "resposta": "Sim, trabalhamos com aluguel de trajes para noivas, debutantes, madrinhas, formandas e convidadas. Fale com a gente para saber sobre outras opções."
+    },
+    {
+      "pergunta": "Com quanto tempo de antecedência devo reservar?",
+      "resposta": "Recomendamos reservar com a maior antecedência possível, principalmente para noivas e debutantes, para garantir o modelo e o tempo dos ajustes."
+    },
+    {
+      "pergunta": "Os ajustes estão inclusos?",
+      "resposta": "Cada traje é preparado para vestir você com perfeição. Os detalhes sobre ajustes e prazos são combinados no seu atendimento."
+    },
+    {
+      "pergunta": "Posso levar acompanhantes na prova?",
+      "resposta": "Claro! Avise no agendamento quantas pessoas virão com você para prepararmos o espaço com todo o conforto."
+    },
+    {
+      "pergunta": "Onde fica o atelier?",
+      "resposta": "Estamos em Ubatuba – SP. O endereço completo é enviado na confirmação do seu horário."
+    }
   ],
   "agende": {
     "titulo": "Reserve o seu",
     "titulo_destaque": "momento",
     "texto": "Preencha ao lado e envie direto para o nosso WhatsApp. Vamos confirmar o seu horário com todo o carinho.",
     "horario": "Atendimento somente com horário marcado",
-    "ocasioes": ["Noiva", "Debutante", "Festa / Madrinha", "Infantil / Daminha", "Formatura", "Outro"]
+    "ocasioes": [
+      "Noiva",
+      "Debutante",
+      "Festa / Madrinha",
+      "Infantil / Daminha",
+      "Formatura",
+      "Outro"
+    ]
   }
 }
