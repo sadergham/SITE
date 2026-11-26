@@ -85,7 +85,7 @@ content:
           - { name: foto_principal, label: "Foto principal", component: foto }
           - { name: foto_menor, label: "Foto menor", component: foto }
           - name: numeros
-            label: Números (ex.: seguidoras, prêmios)
+            label: "Números (ex.: seguidoras, prêmios)"
             component: numero
             list: { max: 3 }
 
