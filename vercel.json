@@ -1,0 +1,10 @@
+{
+  "buildCommand": "node build.mjs",
+  "outputDirectory": "dist",
+  "installCommand": "",
+  "framework": null,
+  "redirects": [
+    { "source": "/admin", "destination": "https://app.pagescms.org", "permanent": false },
+    { "source": "/painel", "destination": "https://app.pagescms.org", "permanent": false }
+  ]
+}

@@ -1,0 +1,195 @@
+# Painel de edição do site (Pages CMS) — https://app.pagescms.org
+media:
+  input: fotos
+  output: /fotos
+  rename: safe
+  categories: [image]
+
+settings:
+  commit:
+    identity: user
+
+components:
+  foto:
+    type: object
+    fields:
+      - name: imagem
+        label: Foto
+        type: image
+        required: true
+      - name: enquadramento
+        label: Enquadramento
+        description: Qual parte da foto deve aparecer quando ela for cortada no site.
+        type: select
+        options:
+          values:
+            - { name: "center center", label: "Centro" }
+            - { name: "center 25%", label: "Mais para cima (mostra o rosto)" }
+            - { name: "center 40%", label: "Um pouco para cima" }
+            - { name: "center 70%", label: "Mais para baixo (mostra a saia)" }
+            - { name: "30% center", label: "Mais para a esquerda" }
+            - { name: "70% center", label: "Mais para a direita" }
+  numero:
+    type: object
+    fields:
+      - { name: valor, label: "Número ou emoji", type: string }
+      - { name: rotulo, label: "Legenda", type: string }
+
+content:
+  - name: site
+    label: "✏️ Editar o site"
+    type: file
+    path: conteudo/site.json
+    format: json
+    fields:
+      - name: contato
+        label: "📞 Contato e links"
+        type: object
+        fields:
+          - name: whatsapp
+            label: WhatsApp do atelier
+            description: "Só números, com 55 + DDD. Ex.: 5512996124117"
+            type: string
+            pattern: "^[0-9]{12,13}$"
+          - { name: instagram, label: "Link do Instagram", type: string }
+          - { name: instagram_usuario, label: "Usuário do Instagram (ex.: @atelierdasarah)", type: string }
+          - { name: cidade, label: "Cidade", type: string }
+          - name: catalogo_link
+            label: Link do catálogo (CatalogoApp)
+            type: string
+
+      - name: inicio
+        label: "🏠 Topo do site (primeira tela)"
+        type: object
+        fields:
+          - { name: chamada, label: "Frase pequena acima do título", type: string }
+          - { name: titulo, label: "Título", type: string }
+          - { name: titulo_destaque, label: "Final do título (aparece em dourado)", type: string }
+          - { name: texto, label: "Texto", type: text }
+          - { name: foto, label: "Foto grande", component: foto }
+          - { name: premio_titulo, label: "Prêmio — título", type: string }
+          - { name: premio_texto, label: "Prêmio — texto", type: string }
+          - { name: selo, label: "Selo na foto", type: string }
+
+      - name: sobre
+        label: "👩 Sobre a Sarah"
+        type: object
+        fields:
+          - { name: chamada, label: "Frase pequena acima do título", type: string }
+          - { name: titulo, label: "Título", type: string }
+          - { name: titulo_destaque, label: "Final do título (aparece em dourado)", type: string }
+          - name: paragrafos
+            label: Parágrafos
+            type: text
+            list: true
+          - { name: foto_principal, label: "Foto principal", component: foto }
+          - { name: foto_menor, label: "Foto menor", component: foto }
+          - name: numeros
+            label: Números (ex.: seguidoras, prêmios)
+            component: numero
+            list: { max: 3 }
+
+      - name: colecoes
+        label: "👗 Coleções"
+        type: object
+        fields:
+          - { name: titulo, label: "Título", type: string }
+          - { name: titulo_destaque, label: "Final do título (aparece em dourado)", type: string }
+          - { name: texto, label: "Texto", type: text }
+          - name: cards
+            label: Coleções
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{nome}"
+            fields:
+              - { name: nome, label: "Nome", type: string, required: true }
+              - { name: texto, label: "Texto", type: text }
+              - name: ocasiao
+                label: Ocasião no formulário de agendamento
+                description: Ao clicar nesta coleção, o formulário já vem com esta ocasião escolhida.
+                type: select
+                options:
+                  values: ["Noiva", "Debutante", "Festa / Madrinha", "Infantil / Daminha", "Formatura", "Outro"]
+              - { name: foto, label: "Foto", component: foto }
+
+      - name: catalogo
+        label: "📖 Catálogo"
+        type: object
+        fields:
+          - { name: titulo, label: "Título", type: string }
+          - { name: titulo_destaque, label: "Final do título (aparece em dourado)", type: string }
+          - { name: texto, label: "Texto", type: text }
+
+      - name: galeria
+        label: "🖼️ Galeria de destaques"
+        type: object
+        fields:
+          - { name: titulo, label: "Título", type: string }
+          - { name: titulo_destaque, label: "Final do título (aparece em dourado)", type: string }
+          - name: fotos
+            label: Fotos (o ideal é 4 ou 8)
+            component: foto
+            list:
+              collapsible:
+                collapsed: true
+                summary: "Foto {index}"
+
+      - name: como_funciona
+        label: "✨ Como funciona"
+        type: object
+        fields:
+          - name: passos
+            label: Passos
+            type: object
+            list: { max: 3 }
+            fields:
+              - { name: titulo, label: "Título", type: string }
+              - { name: texto, label: "Texto", type: text }
+
+      - name: avaliacoes
+        label: "⭐ Avaliações"
+        type: object
+        fields:
+          - name: depoimentos
+            label: Depoimentos de clientes
+            description: Use só depoimentos reais. Se deixar vazio, aparece o texto abaixo com o botão do Instagram.
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{nome}"
+            fields:
+              - { name: texto, label: "Depoimento", type: text, required: true }
+              - { name: nome, label: "Nome da cliente", type: string }
+              - { name: detalhe, label: "Detalhe (ex.: Noiva, 2026)", type: string }
+          - { name: texto, label: "Texto (quando não houver depoimentos)", type: text }
+          - name: numeros
+            label: Números
+            component: numero
+            list: { max: 3 }
+
+      - name: duvidas
+        label: "❓ Dúvidas frequentes"
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{pergunta}"
+        fields:
+          - { name: pergunta, label: "Pergunta", type: string, required: true }
+          - { name: resposta, label: "Resposta", type: text }
+
+      - name: agende
+        label: "📅 Agendamento"
+        type: object
+        fields:
+          - { name: titulo, label: "Título", type: string }
+          - { name: titulo_destaque, label: "Final do título (aparece em dourado)", type: string }
+          - { name: texto, label: "Texto", type: text }
+          - { name: horario, label: "Horário de atendimento", type: string }
+          - name: ocasioes
+            label: Opções de ocasião no formulário
+            type: string
+            list: true
