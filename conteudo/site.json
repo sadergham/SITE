@@ -24,7 +24,7 @@
       "Sarah Dergham transformou a paixão pela moda em um atelier onde cada cliente é recebida como única. Com olhar atento aos detalhes, ela ajuda noivas, debutantes e convidadas a encontrar o traje que traduz quem elas são.",
       "No atelier, o atendimento é sempre com horário marcado: um momento tranquilo, só seu, para provar, ajustar e se encantar — com a experiência de um atelier premiado internacional e regionalmente."
     ],
-    "foto_principal": { "imagem": "/fotos/sarah.jpg", "enquadramento": "28% center" },
+    "foto_principal": { "imagem": "/fotos/sarah.jpg", "enquadramento": "30% center" },
     "foto_menor": { "imagem": "/fotos/debutante-3.jpg", "enquadramento": "center 40%" },
     "numeros": [
       { "valor": "8.6 mil", "rotulo": "Seguidoras" },
@@ -37,9 +37,9 @@
     "titulo_destaque": "momentos inesquecíveis",
     "texto": "Aluguel de vestidos selecionados, ajustados para você.",
     "cards": [
-      { "nome": "Noivas", "texto": "Vestidos que contam a sua história no dia mais especial.", "ocasiao": "Noiva", "foto": { "imagem": "/fotos/noiva-1.webp", "enquadramento": "center 30%" } },
-      { "nome": "Debutantes", "texto": "Brilho, leveza e encanto para celebrar os 15 anos.", "ocasiao": "Debutante", "foto": { "imagem": "/fotos/festa-2.jpg", "enquadramento": "48% center" } },
-      { "nome": "Infantil & Daminhas", "texto": "Vestidos encantadores para as pequenas brilharem também.", "ocasiao": "Infantil / Daminha", "foto": { "imagem": "/fotos/daminha-1.jpg", "enquadramento": "52% center" } }
+      { "nome": "Noivas", "texto": "Vestidos que contam a sua história no dia mais especial.", "ocasiao": "Noiva", "foto": { "imagem": "/fotos/noiva-1.webp", "enquadramento": "center 25%" } },
+      { "nome": "Debutantes", "texto": "Brilho, leveza e encanto para celebrar os 15 anos.", "ocasiao": "Debutante", "foto": { "imagem": "/fotos/festa-2.jpg", "enquadramento": "center center" } },
+      { "nome": "Infantil & Daminhas", "texto": "Vestidos encantadores para as pequenas brilharem também.", "ocasiao": "Infantil / Daminha", "foto": { "imagem": "/fotos/daminha-1.jpg", "enquadramento": "center center" } }
     ]
   },
   "catalogo": {
@@ -51,7 +51,7 @@
     "titulo": "Trajes que",
     "titulo_destaque": "encantam",
     "fotos": [
-      { "imagem": "/fotos/noiva-2.webp", "enquadramento": "45% center" },
+      { "imagem": "/fotos/noiva-2.webp", "enquadramento": "center center" },
       { "imagem": "/fotos/debutante-1.jpg", "enquadramento": "center center" },
       { "imagem": "/fotos/noiva-3.webp", "enquadramento": "center center" },
       { "imagem": "/fotos/debutante-2.jpg", "enquadramento": "center center" }
