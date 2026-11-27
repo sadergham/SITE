@@ -54,6 +54,7 @@ content:
           - { name: instagram, label: "Link do Instagram", type: string }
           - { name: instagram_usuario, label: "Usuário do Instagram (ex.: @atelierdasarah)", type: string }
           - { name: cidade, label: "Cidade", type: string }
+          - { name: endereco, label: "Endereço completo (aparece no site com link para o mapa)", type: string }
           - name: catalogo_link
             label: Link do catálogo (CatalogoApp)
             type: string
@@ -111,7 +112,7 @@ content:
                 description: Ao clicar nesta coleção, o formulário já vem com esta ocasião escolhida.
                 type: select
                 options:
-                  values: ["Noiva", "Debutante", "Festa / Madrinha", "Infantil / Daminha", "Formatura", "Outro"]
+                  values: ["Noiva", "Debutante", "Festa / Madrinha", "Infantil / Daminha", "Formatura", "Ternos", "Outro"]
               - { name: foto, label: "Foto", component: foto }
 
       - name: catalogo

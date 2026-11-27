@@ -193,6 +193,25 @@
   input:focus,select:focus,textarea:focus{border-color:var(--ouro)}
   textarea{resize:vertical;min-height:70px}
   .linha2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  [hidden]{display:none!important}
+  fieldset{border:0;padding:0;margin:0;display:grid;gap:12px;min-width:0}
+  legend{padding:0;margin-bottom:10px;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--suave)}
+  .linha3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .linha3 label{font-size:.6rem;letter-spacing:.12em}
+  .opcoes{display:flex;gap:24px;flex-wrap:wrap}
+  .opcao{display:flex;align-items:center;gap:8px;font-size:.95rem;letter-spacing:0;text-transform:none;color:var(--texto);cursor:pointer}
+  .opcao input{width:auto;accent-color:var(--ouro)}
+  .info a{display:grid;gap:2px;color:inherit}
+  .info a small{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ouro)}
+
+  /* Abertura com o vídeo de boas-vindas */
+  .so-leitor{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .hero-video{padding-top:86px;background:#f7f2e8}
+  .video-boas-vindas{display:block;width:100%;max-height:calc(100vh - 86px);aspect-ratio:16/9;object-fit:contain;background:#f7f2e8;margin:0 auto}
+  .hero-chamada{background:linear-gradient(180deg,#f7f2e8 0%,var(--branco) 100%);padding:52px 0 84px;text-align:center}
+  .hero-chamada p{font-size:1.06rem;color:var(--suave);max-width:580px;margin:14px auto 34px}
+  .hero-chamada .hero-botoes{justify-content:center}
+  .hero-chamada .premio{margin:46px auto 0;justify-content:center;text-align:left}
   form .btn{width:100%;margin-top:8px}
 
   /* Rodapé */

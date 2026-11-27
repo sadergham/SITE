@@ -4,16 +4,17 @@
     "instagram": "https://www.instagram.com/atelierdasarah/",
     "instagram_usuario": "@atelierdasarah",
     "cidade": "Ubatuba – SP",
+    "endereco": "Rua Noel Rosa, 11 – Sertão do Meio, Ubatuba – SP",
     "catalogo_link": "https://catalogoapp.mobi/8a2430d2-93ec-487d-9d32-019ed212aa38"
   },
   "inicio": {
     "chamada": "Atelier de Trajes · Ubatuba – SP",
     "titulo": "Que bom ter você",
-    "titulo_destaque": "no nosso ateliê.",
-    "texto": "Trajes para casamentos e festas, com opções para noivas e debutantes — em um atendimento exclusivo, com horário marcado só para você.",
+    "titulo_destaque": "no nosso atelier.",
+    "texto": "Trajes para casamentos e festas, com opções para noivas, debutantes, daminhas e ternos — em um atendimento exclusivo, com horário marcado só para você.",
     "foto": {
-      "imagem": "/fotos/sarah-arara.webp",
-      "enquadramento": "center 40%"
+      "imagem": "/fotos/sarah-maos-no-peito.webp",
+      "enquadramento": "center 25%"
     },
     "premio_titulo": "Premiado internacional e regionalmente",
     "premio_texto": "Reconhecimento em moda e atendimento",
@@ -28,12 +29,12 @@
       "No atelier, o atendimento é sempre com horário marcado: um momento tranquilo, só seu, para provar, ajustar e se encantar — com a experiência de um atelier premiado internacional e regionalmente."
     ],
     "foto_principal": {
-      "imagem": "/fotos/sarah.jpg",
-      "enquadramento": "30% center"
+      "imagem": "/fotos/sarah-arara-azul.webp",
+      "enquadramento": "center 25%"
     },
     "foto_menor": {
-      "imagem": "/fotos/debutante-3.jpg",
-      "enquadramento": "center 40%"
+      "imagem": "/fotos/sarah-maos-no-peito.webp",
+      "enquadramento": "center 25%"
     },
     "numeros": [
       {
@@ -78,8 +79,8 @@
         "texto": "Vestidos encantadores para as pequenas brilharem também.",
         "ocasiao": "Infantil / Daminha",
         "foto": {
-          "imagem": "/fotos/daminha-1.jpg",
-          "enquadramento": "center center"
+          "imagem": "/fotos/daminha-2.jpg",
+          "enquadramento": "center 25%"
         }
       }
     ]
@@ -147,7 +148,7 @@
     },
     {
       "pergunta": "Os vestidos são para aluguel?",
-      "resposta": "Sim, trabalhamos com aluguel de trajes para noivas, debutantes, madrinhas, formandas e convidadas. Fale com a gente para saber sobre outras opções."
+      "resposta": "Sim, trabalhamos com aluguel de trajes para noivas, debutantes, madrinhas, formandas, convidadas e daminhas, além de ternos. Fale com a gente para saber sobre outras opções."
     },
     {
       "pergunta": "Com quanto tempo de antecedência devo reservar?",
@@ -159,11 +160,11 @@
     },
     {
       "pergunta": "Posso levar acompanhantes na prova?",
-      "resposta": "Claro! Avise no agendamento quantas pessoas virão com você para prepararmos o espaço com todo o conforto."
+      "resposta": "Claro! No agendamento, conte quantas pessoas virão, quantas vão provar trajes e quantas vão só acompanhar, para prepararmos o espaço com todo o conforto."
     },
     {
       "pergunta": "Onde fica o atelier?",
-      "resposta": "Estamos em Ubatuba – SP. O endereço completo é enviado na confirmação do seu horário."
+      "resposta": "Estamos na Rua Noel Rosa, 11 – Sertão do Meio, Ubatuba – SP. O atendimento é com horário marcado: agende pelo WhatsApp antes de vir."
     }
   ],
   "agende": {
@@ -177,6 +178,7 @@
       "Festa / Madrinha",
       "Infantil / Daminha",
       "Formatura",
+      "Ternos",
       "Outro"
     ]
   }

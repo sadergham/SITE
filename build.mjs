@@ -63,12 +63,13 @@ ${css}
 </header>
 
 <!-- ============ INÍCIO ============ -->
-<section class="hero" id="inicio">
-  <div class="hero-texto">
-    <img class="logo-hero" src="fotos/logo.webp" alt="Atelier da Sarah" width="1158" height="496">
-    <div class="regua" aria-hidden="true"></div>
+<section class="hero-video" id="inicio">
+  <h1 class="so-leitor">Boas-vindas ao Atelier da Sarah. ${e(ini.titulo)} ${e(ini.titulo_destaque)}</h1>
+  <video class="video-boas-vindas" src="fotos/boas-vindas.mp4" poster="fotos/boas-vindas-capa.jpg" autoplay muted loop playsinline preload="auto" aria-label="Vídeo de boas-vindas: Sarah dá as boas-vindas ao Atelier da Sarah"></video>
+</section>
+<section class="hero-chamada">
+  <div class="container">
     <span class="eyebrow">${e(ini.chamada)}</span>
-    <h1>${titulo(ini.titulo, ini.titulo_destaque)}</h1>
     <p>${e(ini.texto)}</p>
     <div class="hero-botoes">
       <a href="#agende" class="btn btn-ouro">Agende seu horário</a>
@@ -78,11 +79,6 @@ ${css}
       <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#b8975a" stroke-width="1"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/><path d="m12 6 .9 1.9 2.1.3-1.5 1.4.4 2.1L12 10.7l-1.9 1 .4-2.1L9 8.2l2.1-.3z"/></svg>
       <div><strong>${e(ini.premio_titulo)}</strong>${e(ini.premio_texto)}</div>
     </div>` : ''}
-  </div>
-  <div class="hero-foto">
-    ${foto(ini.foto)}
-    <div class="moldura"></div>
-    ${ini.selo ? `<div class="selo"><b>🥇</b><span>${e(ini.selo)}</span></div>` : ''}
   </div>
 </section>
 
@@ -230,7 +226,7 @@ ${css}
       <h2>${titulo(age.titulo, age.titulo_destaque)}</h2>
       <p>${e(age.texto)}</p>
       <ul class="info">
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.2"><path d="M12 22s7-6.3 7-12a7 7 0 1 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>${e(k.cidade)}</li>
+        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.2"><path d="M12 22s7-6.3 7-12a7 7 0 1 0-14 0c0 5.7 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>${k.endereco ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(k.endereco)}" target="_blank" rel="noopener">${e(k.endereco)}<small>Ver no mapa</small></a>` : e(k.cidade)}</li>
         <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${e(age.horario)}</li>
         <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg>${e(k.instagram_usuario)}</li>
       </ul>
@@ -248,6 +244,22 @@ ${css}
         <label>Data do evento<input type="date" name="evento"></label>
       </div>
       <label>Melhor dia para a prova<input type="date" name="prova"></label>
+      <fieldset class="pessoas">
+        <legend>Quantas pessoas vêm ao atendimento?</legend>
+        <div class="linha3">
+          <label>Total<input type="number" name="total" min="1" max="20" inputmode="numeric" placeholder="Ex.: 3"></label>
+          <label>Vão provar trajes<input type="number" name="trajes" min="0" max="20" inputmode="numeric" placeholder="Ex.: 1"></label>
+          <label>Só acompanhar<input type="number" name="acompanhar" min="0" max="20" inputmode="numeric" placeholder="Ex.: 2"></label>
+        </div>
+      </fieldset>
+      <fieldset class="cor-traje" id="cor-traje" hidden>
+        <legend>Já tem uma cor definida para o traje?</legend>
+        <div class="opcoes">
+          <label class="opcao"><input type="radio" name="tem_cor" value="sim"> Sim</label>
+          <label class="opcao"><input type="radio" name="tem_cor" value="nao"> Ainda não tenho</label>
+        </div>
+        <label id="qual-cor" hidden>Qual cor?<input name="cor" placeholder="Ex.: azul serenity, rosê, marsala..."></label>
+      </fieldset>
       <label>Mensagem (opcional)<textarea name="msg" placeholder="Conte um pouco sobre o que você imagina..."></textarea></label>
       <button class="btn btn-ouro" type="submit">Enviar pelo WhatsApp</button>
     </form>
@@ -277,14 +289,35 @@ ${css}
   const linkWhats = msg => \`https://wa.me/\${WHATSAPP}?text=\${encodeURIComponent(msg)}\`;
   document.querySelectorAll('.js-whats').forEach(a => a.href = linkWhats(a.dataset.msg));
 
+  // Pessoas: calcula "só acompanhar" e mostra a pergunta da cor quando alguém vai provar trajes
+  const fm = document.getElementById('form');
+  const corBox = document.getElementById('cor-traje');
+  const qualCor = document.getElementById('qual-cor');
+  let acompManual = false;
+  fm.acompanhar.addEventListener('input', () => { acompManual = fm.acompanhar.value !== ''; });
+  const atualizaPessoas = () => {
+    const t = parseInt(fm.total.value, 10), p = parseInt(fm.trajes.value, 10);
+    if (!acompManual && t >= 0 && p >= 0) fm.acompanhar.value = Math.max(0, t - p);
+    corBox.hidden = !(p > 0);
+  };
+  fm.total.addEventListener('input', atualizaPessoas);
+  fm.trajes.addEventListener('input', atualizaPessoas);
+  fm.querySelectorAll('input[name=tem_cor]').forEach(r => r.addEventListener('change', () => { qualCor.hidden = fm.tem_cor.value !== 'sim'; }));
+
   // Formulário → mensagem pronta no WhatsApp
   const fmt = d => d ? d.split('-').reverse().join('/') : 'a combinar';
-  document.getElementById('form').addEventListener('submit', e => {
+  fm.addEventListener('submit', e => {
     e.preventDefault();
     const f = e.target;
     let msg = \`Olá, Sarah! Gostaria de agendar um horário no atelier.\\n\\n\` +
       \`Nome: \${f.nome.value}\\nOcasião: \${f.ocasiao.value}\\n\` +
       \`Data do evento: \${fmt(f.evento.value)}\\nMelhor dia para a prova: \${fmt(f.prova.value)}\`;
+    if (f.total.value || f.trajes.value || f.acompanhar.value) {
+      msg += \`\\n\\nPessoas no atendimento: \${f.total.value || '?'}\\nVão provar trajes: \${f.trajes.value || '?'}\\nSó acompanhar: \${f.acompanhar.value || '?'}\`;
+    }
+    if (!corBox.hidden && f.tem_cor.value) {
+      msg += f.tem_cor.value === 'sim' ? \`\\nCor do traje: \${f.cor.value.trim() || 'já tenho (a combinar)'}\` : \`\\nCor do traje: ainda não tenho\`;
+    }
     if (f.msg.value.trim()) msg += \`\\n\\n\${f.msg.value.trim()}\`;
     window.open(linkWhats(msg), '_blank');
   });
