@@ -13,7 +13,7 @@
     "titulo_destaque": "no nosso atelier.",
     "texto": "Trajes para casamentos e festas, com opções para noivas, debutantes, daminhas e ternos — em um atendimento exclusivo, com horário marcado só para você.",
     "foto": {
-      "imagem": "/fotos/sarah-maos-no-peito.webp",
+      "imagem": "/fotos/sarah-arara-azul.webp",
       "enquadramento": "center 25%"
     },
     "premio_titulo": "Premiado internacional e regionalmente",
@@ -33,8 +33,8 @@
       "enquadramento": "center 25%"
     },
     "foto_menor": {
-      "imagem": "/fotos/sarah-maos-no-peito.webp",
-      "enquadramento": "center 25%"
+      "imagem": "/fotos/debutante-3.jpg",
+      "enquadramento": "center 40%"
     },
     "numeros": [
       {
@@ -81,6 +81,15 @@
         "foto": {
           "imagem": "/fotos/daminha-2.jpg",
           "enquadramento": "center 25%"
+        }
+      },
+      {
+        "nome": "Ternos",
+        "texto": "Elegância para noivos, padrinhos e convidados — adulto e infantil.",
+        "ocasiao": "Ternos",
+        "foto": {
+          "imagem": "/fotos/terno-cinza.jpg",
+          "enquadramento": "center center"
         }
       }
     ]
