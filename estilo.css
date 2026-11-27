@@ -206,9 +206,9 @@
 
   /* Abertura com o vídeo de boas-vindas */
   .so-leitor{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  .hero-video{padding-top:86px;background:#f7f2e8}
-  .video-boas-vindas{display:block;width:100%;max-height:calc(100vh - 86px);aspect-ratio:16/9;object-fit:contain;background:#f7f2e8;margin:0 auto}
-  .hero-chamada{background:linear-gradient(180deg,#f7f2e8 0%,var(--branco) 100%);padding:52px 0 84px;text-align:center}
+  .hero-video{padding-top:86px;background:#f7f2ea}
+  .video-boas-vindas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#f7f2ea}
+  .hero-chamada{background:linear-gradient(180deg,#f7f2ea 0%,var(--branco) 100%);padding:52px 0 84px;text-align:center}
   .hero-chamada p{font-size:1.06rem;color:var(--suave);max-width:580px;margin:14px auto 34px}
   .hero-chamada .hero-botoes{justify-content:center}
   .hero-chamada .premio{margin:46px auto 0;justify-content:center;text-align:left}

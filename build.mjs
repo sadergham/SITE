@@ -63,9 +63,11 @@ ${css}
 </header>
 
 <!-- ============ INÍCIO ============ -->
-<section class="hero-video" id="inicio">
+<section class="hero-video" id="inicio" aria-label="Boas-vindas ao Atelier da Sarah! Que bom ter você aqui. Fique à vontade!">
   <h1 class="so-leitor">Boas-vindas ao Atelier da Sarah. ${e(ini.titulo)} ${e(ini.titulo_destaque)}</h1>
-  <video class="video-boas-vindas" src="fotos/boas-vindas.mp4" poster="fotos/boas-vindas-capa.jpg" autoplay muted loop playsinline preload="auto" aria-label="Vídeo de boas-vindas: Sarah dá as boas-vindas ao Atelier da Sarah"></video>
+  <video class="video-boas-vindas" width="1920" height="1080" poster="fotos/boas-vindas-capa.jpg" autoplay muted playsinline preload="auto" aria-hidden="true">
+    <source src="fotos/boas-vindas.mp4" type="video/mp4">
+  </video>
 </section>
 <section class="hero-chamada">
   <div class="container">
