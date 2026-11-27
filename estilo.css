@@ -93,14 +93,14 @@
   .foto:not([style])::after{content:"S";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:7rem;color:rgba(184,151,90,.25)}
 
   /* Seções */
-  section{padding:120px 0}
-  .titulo-secao{text-align:center;max-width:680px;margin:0 auto 70px}
+  section{padding:76px 0}
+  .titulo-secao{text-align:center;max-width:680px;margin:0 auto 44px}
   .titulo-secao h2{margin-top:16px}
   .titulo-secao p{color:var(--suave);margin-top:6px}
 
   /* Sobre */
   .sobre{background:var(--branco)}
-  .sobre-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:90px;align-items:center}
+  .sobre-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:center}
   .sobre-fotos{position:relative;height:620px}
   .sobre-fotos .f1{position:absolute;left:0;top:0;width:72%;height:82%}
   .sobre-fotos .f2{position:absolute;right:0;bottom:0;width:50%;height:52%;border:10px solid var(--branco);box-shadow:0 25px 60px -25px rgba(60,40,20,.3)}
@@ -123,13 +123,13 @@
   .card-info h3{font-size:1.9rem;margin-bottom:6px}
   .card-info p{color:var(--suave);font-size:.92rem;margin-bottom:14px}
   .card-info a{font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ouro-escuro);border-bottom:1px solid var(--ouro);padding-bottom:3px}
-  .catalogo{text-align:center;margin-top:60px}
+  .catalogo{text-align:center;margin-top:40px}
 
   /* Catálogo */
   .catalogo-secao{background:var(--branco)}
   .catalogo-moldura{border:1px solid var(--linha);padding:10px;background:var(--branco);box-shadow:0 30px 60px -40px rgba(60,40,20,.35)}
   .catalogo-moldura iframe{display:block;width:100%;height:min(900px,85vh);border:0}
-  .catalogo-secao .catalogo{margin-top:40px}
+  .catalogo-secao .catalogo{margin-top:28px}
 
   /* Galeria */
   .galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -140,7 +140,7 @@
 
   /* Como funciona */
   .passos{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
-  .passo{padding:54px 44px;text-align:center}
+  .passo{padding:36px 36px;text-align:center}
   .passo + .passo{border-left:1px solid var(--linha)}
   .passo .num{font-family:var(--serif);font-style:italic;font-size:3.4rem;color:var(--ouro);line-height:1;font-weight:300}
   .passo h3{font-size:1.6rem;margin:14px 0 10px}
@@ -159,7 +159,7 @@
   .pontos{display:flex;gap:12px;justify-content:center;margin-top:40px}
   .pontos button{width:34px;height:2px;border:0;background:var(--linha);cursor:pointer;transition:.3s}
   .pontos button.ativo{background:var(--ouro);width:54px}
-  .nota-geral{display:flex;justify-content:center;gap:50px;margin-top:70px;padding-top:50px;border-top:1px solid rgba(184,151,90,.3);flex-wrap:wrap;text-align:center}
+  .nota-geral{display:flex;justify-content:center;gap:50px;margin-top:44px;padding-top:32px;border-top:1px solid rgba(184,151,90,.3);flex-wrap:wrap;text-align:center}
   .nota-geral b{display:block;font-family:var(--serif);font-size:2.6rem;font-weight:300;line-height:1}
   .nota-geral span{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--suave)}
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -173,7 +173,7 @@
   .faq summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:var(--sans);font-weight:200;font-size:1.8rem;color:var(--ouro);transition:transform .3s}
   .faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
   .faq details p{color:var(--suave);padding:0 50px 30px 0}
-  .faq-cta{text-align:center;margin-top:56px}
+  .faq-cta{text-align:center;margin-top:36px}
   .faq-cta p{font-family:var(--serif);font-size:1.5rem;font-style:italic;margin-bottom:22px}
 
   /* Agendamento */
@@ -209,15 +209,15 @@
   .so-leitor{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .hero-video{padding:86px 0 0;background:#f7f2ea}
   .video-boas-vindas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#f7f2ea}
-  .hero-chamada{background:linear-gradient(180deg,#f7f2ea 0%,var(--branco) 100%);padding:28px 0 72px;text-align:center}
-  @media (max-width:980px){.hero-chamada{padding:24px 0 64px}}
+  .hero-chamada{background:linear-gradient(180deg,#f7f2ea 0%,var(--branco) 100%);padding:28px 0 44px;text-align:center}
+  @media (max-width:980px){.hero-chamada{padding:24px 0 36px}}
   .hero-chamada p{font-size:1.06rem;color:var(--suave);max-width:580px;margin:14px auto 34px}
   .hero-chamada .hero-botoes{justify-content:center}
-  .hero-chamada .premio{margin:46px auto 0;justify-content:center;text-align:left}
+  .hero-chamada .premio{margin:36px auto 0;justify-content:center;text-align:left}
   form .btn{width:100%;margin-top:8px}
 
   /* Rodapé */
-  footer{background:var(--branco);padding:70px 0 34px;text-align:center;border-top:1px solid var(--linha)}
+  footer{background:var(--branco);padding:48px 0 30px;text-align:center;border-top:1px solid var(--linha)}
   footer .logo{text-align:center;margin-bottom:22px}
   footer .logo b{font-size:2rem}
   .redes{display:flex;justify-content:center;gap:22px;margin:24px 0 40px}
@@ -244,14 +244,16 @@
     .hero{grid-template-columns:1fr;gap:50px;padding-top:120px}
     .hero-texto{padding:0 16px}
     .hero-foto{height:520px;margin:0 16px}
-    .sobre-grid,.agende-grid{grid-template-columns:1fr;gap:60px}
-    .sobre-fotos{height:480px}
+    section{padding:60px 0}
+    .titulo-secao{margin-bottom:32px}
+    .sobre-grid,.agende-grid{grid-template-columns:1fr;gap:36px}
+    .sobre-fotos{height:440px}
     .cards{grid-template-columns:1fr;max-width:460px;margin:0 auto}
     .passos{grid-template-columns:1fr}
     .passo + .passo{border-left:0;border-top:1px solid var(--linha)}
   }
   @media (max-width:560px){
-    section{padding:84px 0}
+    section{padding:48px 0}
     .hero-botoes .btn{width:100%}
     .selo{padding:18px 20px}
     .selo b{font-size:2rem}
