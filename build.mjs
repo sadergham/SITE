@@ -1,6 +1,6 @@
 // Monta o site (dist/) a partir de conteudo/site.json, que a Sarah edita pelo painel /admin.
 // Rodar: node build.mjs
-import { readFileSync, writeFileSync, mkdirSync, cpSync, rmSync, existsSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, rmSync, existsSync, copyFileSync, readdirSync } from 'node:fs';
 import { lerPecas, gerarMiniaturas, reduzirFotosGrandes, vitrine, paginaCatalogo } from './catalogo.mjs';
 import { montarPagina } from './pagina.mjs';
 
@@ -31,6 +31,18 @@ copyFileSync('pagina.mjs', 'dist/admin/pagina.mjs');
 writeFileSync('dist/admin/estilo.css', css);
 writeFileSync('dist/admin/vitrine.html', htmlVitrine);
 writeFileSync('dist/admin/info.json', JSON.stringify({ totalPecas: pecas.length, temCatalogo: pecas.length > 0 }));
+// Todas as peças (inclusive as escondidas) para o painel editar
+const todasPecas = existsSync('conteudo/pecas')
+  ? readdirSync('conteudo/pecas').filter((f) => f.endsWith('.json')).map((f) => {
+      try {
+        const p = JSON.parse(readFileSync(`conteudo/pecas/${f}`, 'utf8'));
+        const fotos = (Array.isArray(p.fotos) ? p.fotos : [p.fotos]).filter(Boolean);
+        const capa = String(fotos[0] || '').replace(/^\//, '');
+        return { id: f.replace(/\.json$/, ''), ...p, fotos, mini: mini.get(capa) ? '/' + mini.get(capa) : (capa ? '/' + capa : '') };
+      } catch { return null; }
+    }).filter(Boolean)
+  : [];
+writeFileSync('dist/admin/pecas.json', JSON.stringify(todasPecas));
 // /painel continua levando ao painel
 mkdirSync('dist/painel', { recursive: true });
 writeFileSync('dist/painel/index.html', '<!doctype html><meta charset="utf-8"><title>Painel</title><meta http-equiv="refresh" content="0;url=../admin/"><a href="../admin/">Abrir o painel</a>');

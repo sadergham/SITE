@@ -117,7 +117,7 @@ export function vitrine(pecas, mini, qtd = 8) {
   }
   lista = lista.slice(0, qtd);
   return `<div class="vitrine">
-      ${lista.map((p) => `<a class="peca revela" href="catalogo/#${e(p.id)}">
+      ${lista.map((p) => `<a class="peca revela" data-peca="${e(p.id)}" href="catalogo/#${e(p.id)}">
         <div class="peca-img"><img src="${e(mini.get(p.fotos[0]) || p.fotos[0])}" alt="${e(p.nome)}" loading="lazy" width="480" height="640"></div>
         <div class="peca-info"><span class="peca-nome">${e(p.nome)}</span>${p.preco != null ? `<span class="peca-preco">${p.antigo ? `<s>${brl(p.antigo)}</s> ` : ''}${brl(p.preco)}</span>` : ''}</div>
       </a>`).join('\n      ')}

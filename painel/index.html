@@ -92,6 +92,30 @@
   .item-mini{width:44px;height:44px;border-radius:8px;background:var(--fundo) center/cover;flex:none}
   .add{border:1.5px dashed var(--ouro);color:var(--ouro2);border-radius:12px;padding:12px;font-weight:500}
   .add:hover{background:var(--creme)}
+  /* Peças do catálogo */
+  .grade-pecas{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .peca-item{text-align:left;border:1px solid var(--linha);border-radius:12px;overflow:hidden;background:#fff;position:relative;transition:border-color .2s}
+  .peca-item:hover{border-color:var(--ouro)}
+  .peca-mini{display:block;aspect-ratio:3/4;background:var(--fundo) center/cover no-repeat}
+  .peca-item b{display:block;font-weight:500;font-size:.84rem;padding:8px 10px 0;line-height:1.3}
+  .peca-item small{display:block;padding:3px 10px 10px;color:var(--mid);font-size:.8rem}
+  .selo{position:absolute;left:8px;top:8px;background:rgba(255,255,255,.92);border-radius:999px;padding:3px 8px;font-size:.72rem;font-weight:500}
+  .selo.oculta{background:#2b2622;color:#fff}.selo.mudou{left:auto;right:8px;background:var(--ouro);color:#fff}
+  .fotos-peca{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .fp{position:relative;aspect-ratio:3/4;border-radius:10px;background:var(--fundo) center/cover no-repeat;border:1px solid var(--linha);overflow:hidden}
+  .fp .capa{position:absolute;left:6px;top:6px;background:var(--ouro);color:#fff;font-size:.7rem;font-weight:600;border-radius:999px;padding:2px 7px}
+  .fp .bts{position:absolute;inset:auto 0 0 0;display:flex;justify-content:space-between;padding:5px;background:linear-gradient(transparent,rgba(0,0,0,.45))}
+  .fp .bts button{width:28px;height:28px;border-radius:50%;background:#fff;font-size:.8rem;display:grid;place-items:center}
+  .fp-add{aspect-ratio:3/4;border:1.5px dashed var(--ouro);border-radius:10px;color:var(--ouro2);font-weight:500;font-size:.85rem;display:grid;place-content:center;gap:4px;text-align:center}
+  .fp-add:hover{background:var(--creme)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{border:1px solid var(--linha);border-radius:999px;padding:6px 11px;font-size:.84rem;background:#fff}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .liga{display:flex;align-items:center;gap:10px;font-size:.92rem;cursor:pointer}
+  .liga input{width:20px;height:20px;accent-color:var(--ouro)}
+  .voltar{justify-self:start;color:var(--ouro2);font-weight:500;font-size:.9rem;padding:4px 0}
+  .apagar-peca{justify-self:start;color:var(--verm);font-weight:500;font-size:.9rem;padding:6px 0}
+  .linha-dupla{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   /* Avisos */
   .aviso{position:fixed;z-index:50;left:50%;top:76px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:.92rem;box-shadow:0 20px 40px -20px rgba(0,0,0,.5);max-width:calc(100% - 24px);text-align:center}
   .aviso.ok{background:var(--verde)}.aviso.ruim{background:var(--verm)}
@@ -248,7 +272,7 @@ const PARTES = {
   'catalogo.chamada': { s: 'Catálogo', t: 'Frase pequena', campos: [linha('catalogo.chamada', 'Frase pequena')] },
   'catalogo.titulo': { s: 'Catálogo', t: 'Título', campos: titulo2('catalogo') },
   'catalogo.texto': { s: 'Catálogo', t: 'Texto', campos: [texto('catalogo.texto', 'Texto')] },
-  'catalogo.pecas': { s: 'Catálogo', t: 'Peças do catálogo', aviso: 'As peças (fotos, nomes e preços) são cadastradas no catálogo, que tem um painel próprio. Aqui aparecem os destaques dele.' },
+  'catalogo.pecas': { s: 'Catálogo', t: 'Peças do catálogo', especial: 'pecas' },
   'catalogo.botao': { s: 'Catálogo', t: 'Botão', campos: [linha('catalogo.botao', 'Texto do botão', { dica: 'O número de peças é colocado sozinho no final.' })] },
   'galeria.chamada': { s: 'Destaques', t: 'Frase pequena', campos: [linha('galeria.chamada', 'Frase pequena')] },
   'galeria.titulo': { s: 'Destaques', t: 'Título', campos: titulo2('galeria') },
@@ -295,7 +319,7 @@ const rotuloPino = (id) => {
   const p = parteDe(id);
   if (p.item != null) return '✏️ Editar este item';
   const nome = p.t.charAt(0).toLowerCase() + p.t.slice(1);
-  if (p.lista) return '☰ Editar ' + nome;
+  if (p.lista || p.especial) return '☰ Editar ' + nome;
   return '✏️ Editar ' + nome;
 };
 
@@ -339,6 +363,16 @@ $('#site').addEventListener('load', () => {
     camada.append(b);
     return { el, b, p };
   });
+  // Cada peça do catálogo que aparece no site ganha o seu botão
+  doc.querySelectorAll('[data-peca]').forEach((el) => {
+    const b = doc.createElement('button'); b.type = 'button'; b.className = 'ed-pino item';
+    b.textContent = '✏️ Editar esta peça';
+    b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); abrirPeca(el.dataset.peca, false); });
+    b.addEventListener('mouseenter', () => el.classList.add('ed-sobre'));
+    b.addEventListener('mouseleave', () => el.classList.remove('ed-sobre'));
+    camada.append(b);
+    pinos.push({ el, b, p: { item: 0 } });
+  });
   function posicionar() {
     pinos.forEach(({ el, b, p }) => {
       const r = el.getBoundingClientRect();
@@ -353,7 +387,7 @@ $('#site').addEventListener('load', () => {
         if (rr.width > 0 && rr.height > 0) c = rr;
       }
       const prende = (v) => Math.max(4, Math.min(v, larg - w - 4)) + 'px';
-      if (p.lista && p.item == null) { b.style.left = prende(r.right + x - w); b.style.top = Math.max(4, r.top + y - 14) + 'px'; }
+      if ((p.lista || p.especial) && p.item == null) { b.style.left = prende(r.right + x - w); b.style.top = Math.max(4, r.top + y - 14) + 'px'; }
       else if (el.tagName === 'VIDEO' || el.classList.contains('foto')) { b.style.left = prende(r.left + x + 12); b.style.top = (r.top + y + 12) + 'px'; }
       else { b.style.left = prende(c.left + x); b.style.top = (Math.max(r.bottom, c.bottom) + y - 4) + 'px'; }
     });
@@ -366,11 +400,13 @@ $('#site').addEventListener('load', () => {
   // Clique em qualquer parte editável abre a edição; links não saem do painel
   doc.addEventListener('click', (e) => {
     if (e.target.closest('.ed-pino')) return;
+    const peca = e.target.closest('[data-peca]');
+    if (peca) { e.preventDefault(); abrirPeca(peca.dataset.peca, false); return; }
     const alvo = e.target.closest('[data-ed]');
     if (e.target.closest('a,button,summary,label,input,select,textarea') || alvo) e.preventDefault();
     if (alvo && !e.target.closest('input,select,textarea')) abrir(alvo.dataset.ed);
   }, true);
-  doc.addEventListener('mouseover', (e) => { const a = e.target.closest('[data-ed]'); doc.querySelectorAll('.ed-sobre').forEach((x) => x !== a && x.classList.remove('ed-sobre')); if (a) a.classList.add('ed-sobre'); });
+  doc.addEventListener('mouseover', (e) => { const a = e.target.closest('[data-peca]') || e.target.closest('[data-ed]'); doc.querySelectorAll('.ed-sobre').forEach((x) => x !== a && x.classList.remove('ed-sobre')); if (a) a.classList.add('ed-sobre'); });
 });
 
 // ---------- Gaveta de edição ----------
@@ -483,8 +519,15 @@ function blocoLista(p, alvo) {
   return wrap;
 }
 
+function botoesGaveta(aplicar = 'Pronto', cancelar = true) {
+  $('#g-aplicar').textContent = aplicar; $('#g-aplicar').hidden = false;
+  $('#g-cancelar').hidden = !cancelar;
+}
+function mostrarGaveta() { $('#gaveta').hidden = false; $('#fundo-gaveta').hidden = false; }
 function abrir(id) {
   parteAtual = parteDe(id);
+  if (parteAtual.especial === 'pecas') return abrirPecas();
+  modo = 'parte'; botoesGaveta();
   rascunho = clonar(conteudo);
   const p = parteAtual;
   $('#g-secao').textContent = p.s;
@@ -503,10 +546,13 @@ function abrir(id) {
   $('#gaveta').hidden = false; $('#fundo-gaveta').hidden = false;
   setTimeout(() => corpo.querySelector('input:not([type=file]),textarea')?.focus({ preventScroll: true }), 80);
 }
-function fechar() { $('#gaveta').hidden = true; $('#fundo-gaveta').hidden = true; rascunho = null; }
-$('#g-fechar').onclick = fechar; $('#g-cancelar').onclick = fechar; $('#fundo-gaveta').onclick = fechar;
+function fechar() { $('#gaveta').hidden = true; $('#fundo-gaveta').hidden = true; rascunho = null; pecaEditando = null; modo = 'parte'; }
+$('#g-fechar').onclick = fechar; $('#fundo-gaveta').onclick = fechar;
+$('#g-cancelar').onclick = () => { if (modo === 'peca' && voltarParaLista) abrirPecas(); else fechar(); };
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#gaveta').hidden) fechar(); });
 $('#g-aplicar').onclick = () => {
+  if (modo === 'lista-pecas') return fechar();
+  if (modo === 'peca') return salvarPeca();
   if (!rascunho) return fechar();
   const novo = JSON.stringify(rascunho);
   if (novo !== JSON.stringify(conteudo)) {
@@ -517,6 +563,165 @@ $('#g-aplicar').onclick = () => {
   }
   fechar();
 };
+
+// ---------- Peças do catálogo ----------
+let pecas = [], pecasBase = '[]', modo = 'parte', pecaEditando = null, voltarParaLista = false, busca = '', filtroCat = '', limiteGrade = 40;
+const alteradas = new Map(); // id → dados da peça (null = apagar)
+const brl = (n) => (n == null || n === '' ? '' : Number(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+const lerPreco = (v) => { if (v === '' || v == null) return null; const n = parseFloat(String(v).replace(/[^\d,.-]/g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.')); return Number.isFinite(n) && n >= 0 ? Math.round(n * 100) / 100 : null; };
+const semAcento = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const slug = (s) => semAcento(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80) || 'peca';
+const todasCats = () => [...new Set(pecas.flatMap((p) => p.categorias || []))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+function capaDe(p) {
+  const capa = p.fotos?.[0];
+  if (!capa) return '';
+  if (previas[capa]) return previas[capa];
+  if (p._capa === capa && p.mini) return urlFoto(p.mini);
+  return urlFoto(capa);
+}
+
+function abrirPecas() {
+  modo = 'lista-pecas'; rascunho = null; pecaEditando = null;
+  $('#g-secao').textContent = 'Catálogo';
+  $('#g-titulo').textContent = `Peças do catálogo (${pecas.length})`;
+  const corpo = $('#g-corpo');
+  corpo.innerHTML = `
+    <div class="info">Toque numa peça para trocar as fotos, o nome, o preço e o resto. As mudanças nas peças aparecem no site depois de publicar.</div>
+    <button type="button" class="btn btn-ouro" id="nova-peca">＋ Nova peça</button>
+    <div class="linha-dupla">
+      <label class="campo"><span>Procurar</span><input id="busca-peca" placeholder="Nome da peça…"></label>
+      <label class="campo"><span>Categoria</span><select id="filtro-peca"><option value="">Todas</option>${todasCats().map((c) => `<option>${esc(c)}</option>`).join('')}</select></label>
+    </div>
+    <div class="grade-pecas" id="grade-pecas"></div>`;
+  $('#busca-peca').value = busca; $('#filtro-peca').value = filtroCat;
+  $('#busca-peca').oninput = (e) => { busca = e.target.value; limiteGrade = 40; desenharGrade(); };
+  $('#filtro-peca').onchange = (e) => { filtroCat = e.target.value; limiteGrade = 40; desenharGrade(); };
+  $('#nova-peca').onclick = () => abrirPeca(null, true);
+  desenharGrade();
+  botoesGaveta('Fechar', false);
+  mostrarGaveta();
+}
+function desenharGrade() {
+  const g = $('#grade-pecas'); if (!g) return;
+  const termo = semAcento(busca).trim();
+  const lista = pecas.filter((p) => (!termo || semAcento(p.nome).includes(termo)) && (!filtroCat || (p.categorias || []).includes(filtroCat)));
+  g.innerHTML = lista.slice(0, limiteGrade).map((p) => `
+    <button type="button" class="peca-item" data-id="${esc(p.id)}">
+      <span class="peca-mini" style="background-image:url('${esc(capaDe(p))}')"></span>
+      ${p.disponivel === false ? '<span class="selo oculta">Escondida</span>' : p.destaque ? '<span class="selo">★ Destaque</span>' : ''}
+      ${alteradas.has(p.id) ? '<span class="selo mudou">Alterada</span>' : ''}
+      <b>${esc(p.nome)}</b><small>${p.preco != null ? 'R$ ' + brl(p.preco) : 'Sem preço'}</small>
+    </button>`).join('') || '<div class="info" style="grid-column:1/-1">Nenhuma peça encontrada.</div>';
+  if (lista.length > limiteGrade) {
+    const mais = document.createElement('button'); mais.type = 'button'; mais.className = 'add'; mais.style.gridColumn = '1/-1';
+    mais.textContent = `Mostrar mais (${lista.length - limiteGrade})`;
+    mais.onclick = () => { limiteGrade += 40; desenharGrade(); };
+    g.append(mais);
+  }
+  g.querySelectorAll('.peca-item').forEach((b) => b.onclick = () => abrirPeca(b.dataset.id, true));
+}
+
+function abrirPeca(id, daLista) {
+  const orig = id ? pecas.find((p) => p.id === id) : null;
+  if (id && !orig) return aviso('Essa peça não foi encontrada.', 'ruim');
+  modo = 'peca'; voltarParaLista = daLista; rascunho = null;
+  pecaEditando = orig ? clonar(orig) : { id: null, nome: '', preco: null, categorias: [], fotos: [], descricao: '', disponivel: true, destaque: false };
+  const P = pecaEditando;
+  $('#g-secao').textContent = 'Catálogo';
+  $('#g-titulo').textContent = orig ? 'Editar peça' : 'Nova peça';
+  const corpo = $('#g-corpo');
+  corpo.innerHTML = `
+    ${daLista ? '<button type="button" class="voltar" id="voltar-lista">← Voltar para a lista</button>' : ''}
+    <div class="campo"><span>Fotos</span><div class="fotos-peca" id="fotos-peca"></div><small>A primeira foto é a capa. Use ← → para mudar a ordem.</small></div>
+    <label class="campo"><span>Nome da peça</span><input id="p-nome"></label>
+    <div class="linha-dupla">
+      <label class="campo"><span>Preço (R$)</span><input id="p-preco" inputmode="decimal" placeholder="Ex.: 1.500,00"></label>
+      <label class="campo"><span>Preço antes (promoção)</span><input id="p-antigo" inputmode="decimal" placeholder="Opcional"></label>
+    </div>
+    <label class="campo"><span>Descrição</span><textarea id="p-desc"></textarea></label>
+    <div class="campo"><span>Categorias (toque para marcar)</span><div class="chips" id="p-cats"></div>
+      <div class="linha-dupla" style="margin-top:6px"><input id="p-nova-cat" placeholder="Nova categoria"><button type="button" class="btn btn-linha" id="p-add-cat">Adicionar</button></div></div>
+    <label class="liga"><input type="checkbox" id="p-visivel"> Mostrar esta peça no site</label>
+    <label class="liga"><input type="checkbox" id="p-destaque"> Destacar na página inicial</label>
+    ${orig ? '<button type="button" class="apagar-peca" id="p-apagar">🗑 Excluir esta peça</button>' : ''}`;
+  $('#p-nome').value = P.nome || '';
+  $('#p-preco').value = brl(P.preco);
+  $('#p-antigo').value = brl(P.preco_antigo);
+  $('#p-desc').value = P.descricao || '';
+  $('#p-visivel').checked = P.disponivel !== false;
+  $('#p-destaque').checked = !!P.destaque;
+  const ta = $('#p-desc'); const cresce = () => { ta.style.height = 'auto'; ta.style.height = Math.min(360, ta.scrollHeight + 4) + 'px'; }; ta.oninput = cresce; setTimeout(cresce, 0);
+  const desenharCats = () => {
+    const cats = [...new Set([...todasCats(), ...(P.categorias || [])])].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    $('#p-cats').innerHTML = cats.map((c) => `<button type="button" class="chip${(P.categorias || []).includes(c) ? ' on' : ''}">${esc(c)}</button>`).join('');
+    $('#p-cats').querySelectorAll('.chip').forEach((b, i) => b.onclick = () => {
+      const c = cats[i]; P.categorias = P.categorias || [];
+      P.categorias = P.categorias.includes(c) ? P.categorias.filter((x) => x !== c) : [...P.categorias, c];
+      desenharCats();
+    });
+  };
+  desenharCats();
+  $('#p-add-cat').onclick = () => { const v = $('#p-nova-cat').value.trim(); if (!v) return; P.categorias = [...new Set([...(P.categorias || []), v])]; $('#p-nova-cat').value = ''; desenharCats(); };
+  desenharFotos();
+  if (daLista) $('#voltar-lista').onclick = () => abrirPecas();
+  if (orig) $('#p-apagar').onclick = async () => {
+    if (!(await janela('Excluir esta peça?', `A peça <b>${esc(orig.nome)}</b> vai sair do catálogo quando você publicar.`, [['Cancelar', false], ['Excluir', true, 'btn-escuro']]))) return;
+    alteradas.set(orig.id, null);
+    pecas = pecas.filter((p) => p.id !== orig.id);
+    mudou();
+    if (voltarParaLista) abrirPecas(); else fechar();
+    aviso('Peça excluída. Publique para tirar do site.');
+  };
+  botoesGaveta('Pronto', true);
+  mostrarGaveta();
+}
+function desenharFotos() {
+  const P = pecaEditando, box = $('#fotos-peca'); if (!box) return;
+  box.innerHTML = '';
+  (P.fotos || []).forEach((f, i) => {
+    const d = document.createElement('div'); d.className = 'fp'; d.style.backgroundImage = `url("${urlFoto(f)}")`;
+    d.innerHTML = `${i === 0 ? '<span class="capa">Capa</span>' : ''}<div class="bts"><button type="button" title="Para a esquerda">←</button><button type="button" title="Tirar esta foto">✕</button><button type="button" title="Para a direita">→</button></div>`;
+    const [esq, tira, dir] = d.querySelectorAll('button');
+    esq.onclick = () => { if (i > 0) { [P.fotos[i - 1], P.fotos[i]] = [P.fotos[i], P.fotos[i - 1]]; desenharFotos(); } };
+    dir.onclick = () => { if (i < P.fotos.length - 1) { [P.fotos[i + 1], P.fotos[i]] = [P.fotos[i], P.fotos[i + 1]]; desenharFotos(); } };
+    tira.onclick = () => { P.fotos.splice(i, 1); desenharFotos(); };
+    box.append(d);
+  });
+  if ((P.fotos || []).length < 15) {
+    const add = document.createElement('label'); add.className = 'fp-add';
+    add.innerHTML = '<span style="font-size:1.4rem">＋</span><span>Adicionar fotos</span><input type="file" accept="image/*" multiple hidden>';
+    $('input', add).onchange = async (e) => {
+      const arqs = [...e.target.files].slice(0, 15 - P.fotos.length); e.target.value = '';
+      for (const arq of arqs) {
+        add.innerHTML = '<div class="roda"></div><span>Enviando…</span>';
+        try { const { caminho, local } = await enviarArquivo(arq, {}); P.fotos.push('/' + caminho); previas['/' + caminho] = local; }
+        catch (err) { aviso(err.message, 'ruim', 6000); }
+      }
+      desenharFotos();
+    };
+    box.append(add);
+  }
+}
+function salvarPeca() {
+  const P = pecaEditando; if (!P) return fechar();
+  const nome = $('#p-nome').value.trim();
+  if (!nome) { aviso('Coloque o nome da peça.', 'ruim'); $('#p-nome').focus(); return; }
+  if (!P.fotos?.length) { aviso('Coloque pelo menos uma foto.', 'ruim'); return; }
+  const preco = lerPreco($('#p-preco').value), antigo = lerPreco($('#p-antigo').value);
+  const dados = { nome, preco, categorias: P.categorias || [], fotos: P.fotos, descricao: $('#p-desc').value.trim(), disponivel: $('#p-visivel').checked };
+  if (antigo != null && preco != null && antigo > preco) dados.preco_antigo = antigo;
+  if ($('#p-destaque').checked) dados.destaque = true;
+  const id = P.id || `${slug(nome)}-${Date.now().toString(36)}`;
+  const i = pecas.findIndex((p) => p.id === id);
+  const antes = i >= 0 ? pecas[i] : {};
+  const nova = { id, ...dados, mini: antes.mini, _capa: antes._capa };
+  if (i >= 0 && JSON.stringify({ ...antes }) === JSON.stringify(nova)) { if (voltarParaLista) abrirPecas(); else fechar(); return; }
+  if (i >= 0) pecas[i] = nova; else pecas.unshift(nova);
+  alteradas.set(id, dados);
+  mudou();
+  if (voltarParaLista) abrirPecas(); else fechar();
+  aviso(P.id ? 'Peça alterada. Publique para ir ao site.' : 'Peça criada. Publique para ir ao site.');
+}
 
 // ---------- Enviar foto / vídeo ----------
 async function prepararImagem(arq, { logo }) {
@@ -552,7 +757,7 @@ function quantas() {
   let n = 0;
   const comparar = (x, y) => { if (JSON.stringify(x) === JSON.stringify(y)) return; if (x && y && typeof x === 'object' && typeof y === 'object' && !Array.isArray(x) && !Array.isArray(y)) { new Set([...Object.keys(x), ...Object.keys(y)]).forEach((k) => comparar(x[k], y[k])); } else n++; };
   comparar(a, b);
-  return n;
+  return n + alteradas.size;
 }
 function mudou() {
   const n = quantas();
@@ -565,7 +770,7 @@ function mudou() {
 }
 function guardarRascunho() {
   try {
-    if (quantas()) localStorage.setItem('painel-rascunho', JSON.stringify({ conteudo, arquivos, shaBase, quando: Date.now() }));
+    if (quantas()) localStorage.setItem('painel-rascunho', JSON.stringify({ conteudo, arquivos, shaBase, pecas: [...alteradas], quando: Date.now() }));
     else localStorage.removeItem('painel-rascunho');
   } catch {}
 }
@@ -574,15 +779,18 @@ $('#descartar').onclick = async () => {
   $('#lista-mais').hidden = true;
   if (!quantas()) return aviso('Não há alterações para descartar.');
   if (!(await janela('Descartar alterações?', 'Tudo o que você mudou e ainda não publicou vai voltar a ser como está no site.', [['Cancelar', false], ['Descartar', true, 'btn-escuro']]))) return;
-  conteudo = JSON.parse(original); historico.length = 0; arquivos = []; mudou(); montar();
+  conteudo = JSON.parse(original); historico.length = 0; arquivos = [];
+  alteradas.clear(); pecas = JSON.parse(pecasBase);
+  mudou(); montar();
 };
 async function publicar(forcar = false) {
   const n = quantas();
   if (!forcar && !(await janela('Publicar no site?', `${n} ${n === 1 ? 'alteração vai' : 'alterações vão'} para o site. Ele atualiza em 1 a 2 minutos.`, [['Agora não', false], ['Publicar', true, 'btn-ouro']]))) return;
   const b = $('#publicar'); b.disabled = true; b.textContent = 'Publicando…';
   try {
-    const r = await api({ acao: 'publicar', conteudo, arquivos, shaBase, forcar });
+    const r = await api({ acao: 'publicar', conteudo, arquivos, shaBase, forcar, pecas: [...alteradas].map(([id, dados]) => ({ id, dados })) });
     original = JSON.stringify(conteudo); shaBase = r.sha || shaBase; arquivos = []; historico.length = 0;
+    alteradas.clear(); pecasBase = JSON.stringify(pecas);
     mudou(); acompanhar(r.commit);
   } catch (e) {
     if (e.dados?.conflito) {
@@ -648,20 +856,30 @@ async function iniciar() {
   $('#tela-entrada').hidden = true; $('#tela-painel').hidden = false; $('#carregando').hidden = false;
   if (localStorage.getItem('painel-dica')) $('#dica').hidden = true;
   try {
-    const [rCss, rVit, rInfo, dados] = await Promise.all([
+    const [rCss, rVit, rInfo, rPecas, dados] = await Promise.all([
       fetch('./estilo.css').then((r) => r.text()),
       fetch('./vitrine.html').then((r) => (r.ok ? r.text() : '')),
       fetch('./info.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+      fetch('./pecas.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : [])).catch(() => []),
       api({ acao: 'carregar' }),
     ]);
     css = rCss; vitrine = rVit; info = rInfo;
+    pecas = rPecas.map((p) => ({ ...p, _capa: p.fotos?.[0] })).sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR', { numeric: true }));
+    pecasBase = JSON.stringify(pecas);
     conteudo = dados.conteudo; original = JSON.stringify(conteudo); shaBase = dados.sha;
     // Rascunho guardado neste aparelho?
     const r = JSON.parse(localStorage.getItem('painel-rascunho') || 'null');
-    if (r && JSON.stringify(r.conteudo) !== original) {
+    if (r && (JSON.stringify(r.conteudo) !== original || r.pecas?.length)) {
       const quando = new Date(r.quando).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
       if (await janela('Continuar de onde parou?', `Você tem alterações que não foram publicadas (de ${quando}).`, [['Começar do zero', false], ['Continuar', true, 'btn-ouro']])) {
         conteudo = r.conteudo; arquivos = r.arquivos || [];
+        (r.pecas || []).forEach(([id, dados]) => {
+          alteradas.set(id, dados);
+          const i = pecas.findIndex((p) => p.id === id);
+          if (dados === null) { if (i >= 0) pecas.splice(i, 1); }
+          else if (i >= 0) pecas[i] = { ...pecas[i], ...dados, id };
+          else pecas.unshift({ id, ...dados });
+        });
         if (r.shaBase && r.shaBase !== shaBase) aviso('Atenção: o site mudou depois desse rascunho. Confira antes de publicar.', '', 7000);
       } else localStorage.removeItem('painel-rascunho');
     }
