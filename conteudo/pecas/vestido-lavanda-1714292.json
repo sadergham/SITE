@@ -1,0 +1,14 @@
+{
+  "nome": "Vestido lavanda",
+  "preco": 399.0,
+  "categorias": [
+    "Vestido lavanda"
+  ],
+  "fotos": [
+    "/fotos/pecas/vestido-lavanda-1714292-1.webp",
+    "/fotos/pecas/vestido-lavanda-1714292-2.webp",
+    "/fotos/pecas/vestido-lavanda-1714292-3.webp"
+  ],
+  "descricao": "O aluguel",
+  "disponivel": true
+}

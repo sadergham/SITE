@@ -1,0 +1,14 @@
+{
+  "nome": "Macaquinho debutante",
+  "preco": 399.0,
+  "categorias": [
+    "Debutante"
+  ],
+  "fotos": [
+    "/fotos/pecas/macaquinho-debutante-1938258-1.webp",
+    "/fotos/pecas/macaquinho-debutante-1938258-2.webp",
+    "/fotos/pecas/macaquinho-debutante-1938258-3.webp"
+  ],
+  "descricao": "O aluguel",
+  "disponivel": true
+}

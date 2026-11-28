@@ -1,6 +1,7 @@
 // Monta o site (dist/) a partir de conteudo/site.json, que a Sarah edita pelo painel.
 // Rodar: node build.mjs
 import { readFileSync, writeFileSync, mkdirSync, cpSync, rmSync, existsSync } from 'node:fs';
+import { lerPecas, gerarMiniaturas, reduzirFotosGrandes, vitrine, paginaCatalogo } from './catalogo.mjs';
 
 const c = JSON.parse(readFileSync('conteudo/site.json', 'utf8'));
 const css = readFileSync('estilo.css', 'utf8');
@@ -25,6 +26,12 @@ const gal = c.galeria || {};
 const ava = c.avaliacoes || {};
 const age = c.agende || {};
 const depoimentos = lista(ava.depoimentos).filter((d) => d.texto);
+
+// Catálogo próprio (conteudo/pecas). As miniaturas vão direto para dist/.
+if (existsSync('dist')) rmSync('dist', { recursive: true, force: true });
+mkdirSync('dist', { recursive: true });
+const pecas = lerPecas();
+const mini = await gerarMiniaturas(pecas, 'dist');
 
 const html = `<!doctype html>
 <html lang="pt-BR">
@@ -52,7 +59,7 @@ ${css}
     <ul class="menu" id="menu">
       <li><a href="#sobre">A Sarah</a></li>
       <li><a href="#colecoes">Coleções</a></li>
-      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="catalogo/">Catálogo</a></li>
       <li><a href="#avaliacoes">Avaliações</a></li>
       <li><a href="#duvidas">Dúvidas</a></li>
       <li><a href="#agende">Contato</a></li>
@@ -119,7 +126,7 @@ ${css}
       </a>`).join('\n      ')}
     </div>
     <div class="catalogo revela">
-      <a href="#catalogo" class="btn btn-linha">Ver todos os trajes</a>
+      <a href="catalogo/" class="btn btn-linha">Ver todos os trajes</a>
     </div>
   </div>
 </section>
@@ -133,11 +140,9 @@ ${css}
       <div class="divisor"><span></span></div>
       <p>${e(cat.texto)}</p>
     </div>
-    <div class="catalogo-moldura revela">
-      <iframe src="${e(k.catalogo_link)}" title="Catálogo de trajes do Atelier Sarah Dergham" loading="lazy"></iframe>
-    </div>
+    ${pecas.length ? vitrine(pecas, mini) : `<div class="catalogo-moldura revela"><iframe src="${e(k.catalogo_link)}" title="Catálogo de trajes" loading="lazy"></iframe></div>`}
     <div class="catalogo revela">
-      <a href="${e(k.catalogo_link)}" target="_blank" rel="noopener" class="btn btn-linha">Abrir catálogo em tela cheia</a>
+      <a href="catalogo/" class="btn btn-ouro">Ver o catálogo completo${pecas.length ? ` · ${pecas.length} peças` : ''}</a>
     </div>
   </div>
 </section>
@@ -395,11 +400,15 @@ ${css}
 </html>
 `;
 
-// Gera a pasta dist/ com a página e as fotos
-if (existsSync('dist')) rmSync('dist', { recursive: true, force: true });
-mkdirSync('dist', { recursive: true });
+// Gera a pasta dist/ com as páginas e as fotos
 writeFileSync('dist/index.html', html);
 if (existsSync('fotos')) cpSync('fotos', 'dist/fotos', { recursive: true });
+if (pecas.length) {
+  await reduzirFotosGrandes(pecas, 'dist');
+  mkdirSync('dist/catalogo', { recursive: true });
+  writeFileSync('dist/catalogo/index.html', paginaCatalogo({ c, css, pecas, mini }));
+  console.log(`Catálogo: ${pecas.length} peças`);
+}
 // Atalhos para o painel de edição: /admin e /painel
 const atalho = '<!doctype html><meta charset="utf-8"><title>Painel</title><meta http-equiv="refresh" content="0;url=https://app.pagescms.org"><a href="https://app.pagescms.org">Abrir o painel</a>';
 for (const p of ['admin', 'painel']) { mkdirSync(`dist/${p}`, { recursive: true }); writeFileSync(`dist/${p}/index.html`, atalho); }

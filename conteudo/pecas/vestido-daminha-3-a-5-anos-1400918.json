@@ -1,0 +1,16 @@
+{
+  "nome": "Vestido Daminha 3 a 5 anos",
+  "preco": 100.0,
+  "categorias": [
+    "Vestido daminha/ florista"
+  ],
+  "fotos": [
+    "/fotos/pecas/vestido-daminha-3-a-5-anos-1400918-1.webp",
+    "/fotos/pecas/vestido-daminha-3-a-5-anos-1400918-2.webp",
+    "/fotos/pecas/vestido-daminha-3-a-5-anos-1400918-3.webp",
+    "/fotos/pecas/vestido-daminha-3-a-5-anos-1400918-4.webp",
+    "/fotos/pecas/vestido-daminha-3-a-5-anos-1400918-5.webp"
+  ],
+  "descricao": "O aluguel. Incluindo: Todos os ajustes necessários e lavagem de entrega e devolução.",
+  "disponivel": true
+}

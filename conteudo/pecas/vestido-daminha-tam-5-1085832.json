@@ -1,0 +1,15 @@
+{
+  "nome": "Vestido daminha tam 5",
+  "preco": 150.0,
+  "categorias": [
+    "Vestido daminha/ florista"
+  ],
+  "fotos": [
+    "/fotos/pecas/vestido-daminha-tam-5-1085832-1.webp",
+    "/fotos/pecas/vestido-daminha-tam-5-1085832-2.webp",
+    "/fotos/pecas/vestido-daminha-tam-5-1085832-3.webp",
+    "/fotos/pecas/vestido-daminha-tam-5-1085832-4.webp"
+  ],
+  "descricao": "O aluguel. Incluindo: Todos os ajustes necessários, lavagem de entrega e devolução, e caso necessário echarpe.",
+  "disponivel": true
+}

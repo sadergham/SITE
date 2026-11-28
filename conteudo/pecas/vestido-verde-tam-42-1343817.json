@@ -1,0 +1,15 @@
+{
+  "nome": "Vestido verde tam 42",
+  "preco": 399.0,
+  "categorias": [
+    "Vestido verde"
+  ],
+  "fotos": [
+    "/fotos/pecas/vestido-verde-tam-42-1343817-1.webp",
+    "/fotos/pecas/vestido-verde-tam-42-1343817-2.webp",
+    "/fotos/pecas/vestido-verde-tam-42-1343817-3.webp",
+    "/fotos/pecas/vestido-verde-tam-42-1343817-4.webp"
+  ],
+  "descricao": "O aluguel. Incluindo: Todos os ajustes necessários, lavagem de entrega e devolução, e caso necessário echarpe.",
+  "disponivel": true
+}

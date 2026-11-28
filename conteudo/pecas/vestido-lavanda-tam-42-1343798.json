@@ -1,0 +1,13 @@
+{
+  "nome": "Vestido Lavanda tam 42",
+  "preco": 399.0,
+  "categorias": [
+    "Vestido lavanda"
+  ],
+  "fotos": [
+    "/fotos/pecas/vestido-lavanda-tam-42-1343798-1.webp",
+    "/fotos/pecas/vestido-lavanda-tam-42-1343798-2.webp"
+  ],
+  "descricao": "O aluguel. Incluindo: Todos os ajustes necessários, lavagem de entrega e devolução, e caso necessário echarpe.",
+  "disponivel": true
+}

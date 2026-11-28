@@ -26,6 +26,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Instalar ferramenta de fotos (miniaturas do catálogo)
+        run: npm install --no-audit --no-fund
+      - uses: actions/cache@v4
+        with:
+          path: .cache
+          key: miniaturas-${{ github.run_id }}
+          restore-keys: miniaturas-
       - name: Montar o site
         run: node build.mjs
       - uses: actions/configure-pages@v5

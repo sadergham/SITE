@@ -1,0 +1,17 @@
+{
+  "nome": "Noiva tam 36",
+  "preco": 1000.0,
+  "categorias": [
+    "Noivas"
+  ],
+  "fotos": [
+    "/fotos/pecas/noiva-tam-36-1082515-1.webp",
+    "/fotos/pecas/noiva-tam-36-1082515-2.webp",
+    "/fotos/pecas/noiva-tam-36-1082515-3.webp",
+    "/fotos/pecas/noiva-tam-36-1082515-4.webp",
+    "/fotos/pecas/noiva-tam-36-1082515-5.webp",
+    "/fotos/pecas/noiva-tam-36-1082515-6.webp"
+  ],
+  "descricao": "O aluguel. Incluindo: Todos os ajustes necessários, lavagem de entrega e devolução, e caso necessário echarpe.",
+  "disponivel": true
+}

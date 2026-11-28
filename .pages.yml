@@ -1,9 +1,17 @@
 # Painel de edição do site (Pages CMS) — https://app.pagescms.org
 media:
-  input: fotos
-  output: /fotos
-  rename: safe
-  categories: [image]
+  - name: fotos
+    label: Fotos do site
+    input: fotos
+    output: /fotos
+    rename: safe
+    categories: [image]
+  - name: pecas
+    label: Fotos das peças
+    input: fotos/pecas
+    output: /fotos/pecas
+    rename: safe
+    categories: [image]
 
 settings:
   commit:
@@ -36,6 +44,94 @@ components:
       - { name: rotulo, label: "Legenda", type: string }
 
 content:
+  - name: pecas
+    label: "👗 Catálogo — peças"
+    type: collection
+    path: conteudo/pecas
+    format: json
+    filename: "{nome}.json"
+    view:
+      fields: [nome, preco, categorias, disponivel]
+      primary: nome
+      sort: [nome, preco]
+      search: [nome]
+      default:
+        sort: nome
+        order: asc
+    fields:
+      - name: nome
+        label: Nome da peça
+        description: "Coloque o tamanho no nome. Ex.: Vestido verde esmeralda tam 38 a 42"
+        type: string
+        required: true
+      - name: preco
+        label: Preço do aluguel (R$)
+        description: "Só o número. Ex.: 450 ou 1299,90"
+        type: number
+        required: true
+        options: { min: 0 }
+      - name: preco_antigo
+        label: Preço antigo (só se estiver em promoção)
+        description: Aparece riscado ao lado do preço. Deixe vazio se não tiver promoção.
+        type: number
+        options: { min: 0 }
+      - name: categorias
+        label: Categorias
+        description: "Pode escolher mais de uma (ex.: Debutante + Vestido verde)."
+        type: select
+        required: true
+        options:
+          multiple: true
+          values:
+              - "Debutante"
+              - "Noivas"
+              - "Noiva civil"
+              - "Ternos"
+              - "Vestido daminha/ florista"
+              - "Vestido curtos/midi"
+              - "Vestido gestante ensaio"
+              - "Vestido amarelo"
+              - "Vestido azul marinho"
+              - "Vestido azul royal"
+              - "Vestido azul serenity"
+              - "Vestido azul tifany"
+              - "Vestido cinza / prata"
+              - "Vestido dourado"
+              - "Vestido Fúcsia / Pink"
+              - "Vestido lavanda"
+              - "Vestido Marrom"
+              - "Vestido marsala"
+              - "Vestido Nude"
+              - "Vestido preto"
+              - "Vestido rosa/rosê"
+              - "Vestido roxo"
+              - "Vestido salmão/ coral"
+              - "Vestido terracota"
+              - "Vestido verde"
+              - "Vestido vermelho"
+      - name: fotos
+        label: Fotos
+        description: A primeira foto é a capa. Pode enviar direto do celular.
+        type: image
+        required: true
+        options:
+          multiple: { max: 12 }
+          media: pecas
+      - name: descricao
+        label: Descrição
+        type: text
+        default: "O aluguel. Incluindo: Todos os ajustes necessários, lavagem de entrega e devolução, e caso necessário echarpe."
+      - name: disponivel
+        label: Mostrar no catálogo
+        description: "Desligue para esconder a peça sem apagar (ex.: alugada ou em ajuste)."
+        type: boolean
+        default: true
+      - name: destaque
+        label: Destaque na página inicial
+        description: Marque até 8 peças para aparecerem na vitrine da página inicial.
+        type: boolean
+        default: false
+
   - name: site
     label: "✏️ Editar o site"
     type: file
@@ -56,7 +152,7 @@ content:
           - { name: cidade, label: "Cidade", type: string }
           - { name: endereco, label: "Endereço completo (aparece no site com link para o mapa)", type: string }
           - name: catalogo_link
-            label: Link do catálogo (CatalogoApp)
+            label: "Link do CatalogoApp antigo (só é usado se o catálogo novo estiver vazio)"
             type: string
 
       - name: inicio

@@ -1,0 +1,14 @@
+{
+  "nome": "Vestido de Daminha tamanho 5/6",
+  "preco": 150.0,
+  "categorias": [
+    "Vestido daminha/ florista"
+  ],
+  "fotos": [
+    "/fotos/pecas/vestido-de-daminha-tamanho-5-6-1485264-1.webp",
+    "/fotos/pecas/vestido-de-daminha-tamanho-5-6-1485264-2.webp",
+    "/fotos/pecas/vestido-de-daminha-tamanho-5-6-1485264-3.webp"
+  ],
+  "descricao": "O aluguel. Incluindo: Todos os ajustes necessários, lavagem de entrega e devolução, e caso necessário echarpe.",
+  "disponivel": true
+}

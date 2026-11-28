@@ -1,0 +1,14 @@
+{
+  "nome": "Vestido lavanda tamanho 42 a 46",
+  "preco": 499.0,
+  "categorias": [
+    "Vestido lavanda"
+  ],
+  "fotos": [
+    "/fotos/pecas/vestido-lavanda-tamanho-42-a-46-1761697-1.webp",
+    "/fotos/pecas/vestido-lavanda-tamanho-42-a-46-1761697-2.webp",
+    "/fotos/pecas/vestido-lavanda-tamanho-42-a-46-1761697-3.webp"
+  ],
+  "descricao": "O aluguel",
+  "disponivel": true
+}
