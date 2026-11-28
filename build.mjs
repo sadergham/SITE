@@ -222,6 +222,7 @@ ${css}
 
 <!-- ============ AGENDE ============ -->
 <section class="agende" id="agende">
+  <div class="gotas" aria-hidden="true"><canvas></canvas><div class="tinta"></div></div>
   <div class="container agende-grid">
     <div class="agende-texto revela">
       <span class="eyebrow">Agendamento</span>
@@ -348,6 +349,39 @@ ${css}
   const menu = document.getElementById('menu');
   document.getElementById('hamb').onclick = () => menu.classList.toggle('aberto');
   menu.querySelectorAll('a').forEach(a => a.onclick = () => menu.classList.remove('aberto'));
+
+  // Gotas douradas que se fundem no fundo do agendamento (só anima quando a seção aparece)
+  (function(){
+    const box = document.querySelector('.gotas');
+    if (!box || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    const cv = box.querySelector('canvas'), ctx = cv.getContext('2d');
+    let bolhas = [], id = null, vivo = false;
+    function medir(){
+      cv.width = cv.clientWidth; cv.height = cv.clientHeight; bolhas = [];
+      const esc = Math.max(.85, Math.min(1.3, cv.width / 1200)), qtd = Math.max(7, Math.min(10, Math.round(cv.width * cv.height / 60000)));
+      for (let i = 0; i < qtd; i++) bolhas.push({
+        x: Math.random() * cv.width, y: Math.random() * cv.height,
+        vx: (Math.random() - .5) * 1.2, vy: (Math.random() - .5) * 1.2,
+        r: (30 + Math.random() * 46) * esc
+      });
+    }
+    function passo(){
+      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.fillStyle = '#fff';
+      bolhas.forEach(b => {
+        b.x += b.vx; b.y += b.vy;
+        if (b.x < b.r || b.x > cv.width - b.r) b.vx *= -1;
+        if (b.y < b.r || b.y > cv.height - b.r) b.vy *= -1;
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, 6.284); ctx.fill();
+      });
+      id = requestAnimationFrame(passo);
+    }
+    medir(); addEventListener('resize', medir);
+    new IntersectionObserver(e => {
+      if (e[0].isIntersecting && !vivo) { vivo = true; passo(); }
+      else if (!e[0].isIntersecting && vivo) { vivo = false; cancelAnimationFrame(id); }
+    }).observe(box);
+  })();
 
   // Animação de entrada
   const io = new IntersectionObserver(es => es.forEach(e => {

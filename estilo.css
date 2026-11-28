@@ -179,7 +179,12 @@
   /* Agendamento */
   .agende{background:var(--texto);color:var(--branco);position:relative;overflow:hidden}
   .agende::before{content:"";position:absolute;inset:30px;border:1px solid rgba(184,151,90,.35);pointer-events:none}
-  .agende-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative}
+  .agende-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
+  /* Gotas douradas: o canvas funde as gotas (desfoque + contraste), a tinta pinta de dourado, e a camada clareia o fundo escuro */
+  .gotas{position:absolute;inset:0;overflow:hidden;isolation:isolate;mix-blend-mode:screen;opacity:.42;pointer-events:none}
+  .gotas canvas{position:absolute;inset:-24px;width:calc(100% + 48px);height:calc(100% + 48px);display:block;filter:blur(16px) contrast(30)}
+  .gotas .tinta{position:absolute;inset:0;mix-blend-mode:multiply;background:linear-gradient(120deg,#c9a96a 0%,#b8975a 35%,#e6cf9f 60%,#a8864c 100%)}
+  @media (prefers-reduced-motion:reduce){.gotas{display:none}}
   .agende h2{color:var(--branco);margin:16px 0 22px}
   .agende h2 em{color:var(--ouro)}
   .agende-texto p{color:rgba(255,255,255,.7);margin-bottom:28px}
