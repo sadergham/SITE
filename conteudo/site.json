@@ -18,7 +18,9 @@
     },
     "premio_titulo": "Premiado internacional e regionalmente",
     "premio_texto": "Reconhecimento em moda e atendimento",
-    "selo": "Atelier premiado"
+    "selo": "Atelier premiado",
+    "video": "/fotos/boas-vindas.mp4",
+    "video_capa": "/fotos/boas-vindas-capa.jpg"
   },
   "sobre": {
     "chamada": "Conheça a Sarah",
@@ -92,12 +94,17 @@
           "enquadramento": "center center"
         }
       }
-    ]
+    ],
+    "chamada": "Coleções",
+    "botao_cartao": "Agendar prova",
+    "botao": "Ver todos os trajes"
   },
   "catalogo": {
     "titulo": "Escolha o seu",
     "titulo_destaque": "traje",
-    "texto": "Noivas, debutantes, festa, daminhas e ternos. Filtre por categoria ou cor e fale com a gente pelo WhatsApp."
+    "texto": "Noivas, debutantes, festa, daminhas e ternos. Filtre por categoria ou cor e fale com a gente pelo WhatsApp.",
+    "chamada": "Catálogo",
+    "botao": "Ver o catálogo completo"
   },
   "galeria": {
     "titulo": "Trajes que",
@@ -119,7 +126,9 @@
         "imagem": "/fotos/debutante-2.jpg",
         "enquadramento": "center center"
       }
-    ]
+    ],
+    "chamada": "Destaques",
+    "botao": "Ver mais no Instagram"
   },
   "como_funciona": {
     "passos": [
@@ -135,7 +144,10 @@
         "titulo": "Brilhe",
         "texto": "Seu traje é ajustado e preparado para que você viva o seu momento com segurança."
       }
-    ]
+    ],
+    "chamada": "Atendimento exclusivo",
+    "titulo": "Como",
+    "titulo_destaque": "funciona"
   },
   "avaliacoes": {
     "texto": "Cada noiva, debutante e convidada que passa pelo atelier deixa a sua história. Veja os depoimentos reais das nossas clientes no destaque “Avaliações” do Instagram.",
@@ -148,7 +160,11 @@
         "valor": "🥇",
         "rotulo": "Prêmio internacional"
       }
-    ]
+    ],
+    "chamada": "Avaliações",
+    "titulo": "O que dizem",
+    "titulo_destaque": "nossas clientes",
+    "botao": "Ver avaliações no Instagram"
   },
   "duvidas": [
     {
@@ -189,6 +205,54 @@
       "Formatura",
       "Ternos",
       "Outro"
-    ]
+    ],
+    "chamada": "Agendamento",
+    "form": {
+      "titulo": "Agende seu horário",
+      "sub": "Resposta rápida pelo WhatsApp",
+      "nome": "Seu nome",
+      "nome_dica": "Como podemos te chamar?",
+      "ocasiao": "Ocasião",
+      "data_evento": "Data do evento",
+      "data_prova": "Melhor dia para a prova",
+      "pessoas": "Quantas pessoas vêm ao atendimento?",
+      "total": "Total",
+      "trajes": "Vão provar trajes",
+      "acompanhar": "Só acompanhar",
+      "cor_pergunta": "Já tem uma cor definida para o traje?",
+      "cor_sim": "Sim",
+      "cor_nao": "Ainda não tenho",
+      "cor_qual": "Qual cor?",
+      "cor_dica": "Ex.: azul serenity, rosê, marsala...",
+      "mensagem": "Mensagem (opcional)",
+      "mensagem_dica": "Conte um pouco sobre o que você imagina...",
+      "botao": "Enviar pelo WhatsApp"
+    }
+  },
+  "seo": {
+    "titulo": "Atelier Sarah Dergham",
+    "descricao": "Atelier Sarah Dergham — aluguel de trajes para noivas, debutantes e festas em Ubatuba – SP. Atendimento exclusivo com horário marcado."
+  },
+  "marca": {
+    "logo": "/fotos/logo.webp"
+  },
+  "textos": {
+    "menu_sarah": "A Sarah",
+    "menu_colecoes": "Coleções",
+    "menu_catalogo": "Catálogo",
+    "menu_avaliacoes": "Avaliações",
+    "menu_duvidas": "Dúvidas",
+    "menu_contato": "Contato",
+    "botao_agendar": "Agende seu horário",
+    "botao_duvidas": "Dúvidas",
+    "assinatura": "Sarah Dergham",
+    "rodape": "Atelier Sarah Dergham"
+  },
+  "duvidas_secao": {
+    "chamada": "Dúvidas frequentes",
+    "titulo": "Tudo o que você",
+    "titulo_destaque": "precisa saber",
+    "cta_texto": "Ainda ficou com alguma dúvida?",
+    "cta_botao": "Fale com a Sarah"
   }
 }

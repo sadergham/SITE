@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Painel do Site · Atelier da Sarah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#2b2622;--mid:#7a7067;--ouro:#b8975a;--ouro2:#9a7b42;--creme:#f7f2ea;--linha:#e7dfd3;--verde:#2f7d55;--verm:#b3261e;--fundo:#efe9e1}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:Jost,system-ui,sans-serif;color:var(--ink);background:var(--fundo);-webkit-font-smoothing:antialiased}
+  button,input,select,textarea{font:inherit;color:inherit}
+  button{cursor:pointer;border:0;background:none}
+  [hidden]{display:none!important}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:500;font-size:.92rem;transition:background .2s,opacity .2s;white-space:nowrap}
+  .btn-ouro{background:var(--ouro);color:#fff}.btn-ouro:hover{background:var(--ouro2)}
+  .btn-escuro{background:var(--ink);color:#fff}.btn-escuro:hover{background:#000}
+  .btn-linha{border:1px solid var(--linha);background:#fff}.btn-linha:hover{border-color:var(--ouro)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  /* Entrada */
+  .entrada{min-height:100%;display:grid;place-items:center;padding:24px 16px;background:var(--creme)}
+  .entrada form{width:min(380px,100%);background:#fff;border-radius:18px;padding:34px 28px;box-shadow:0 30px 60px -30px rgba(60,40,20,.35);display:grid;gap:16px;text-align:center}
+  .entrada img{width:170px;margin:0 auto}
+  .entrada h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:1.7rem}
+  .entrada p{color:var(--mid);font-size:.92rem;margin-top:-8px}
+  .campo{display:grid;gap:6px;text-align:left;font-size:.85rem;font-weight:500}
+  .campo small{font-weight:400;color:var(--mid);font-size:.8rem;line-height:1.4}
+  .campo input,.campo textarea,.campo select{width:100%;border:1px solid var(--linha);border-radius:10px;padding:11px 12px;font-size:1rem;font-weight:400;background:#fff;outline:none;transition:border-color .2s}
+  .campo input:focus,.campo textarea:focus,.campo select:focus{border-color:var(--ouro)}
+  .campo textarea{min-height:96px;resize:vertical;line-height:1.5}
+  .erro{color:var(--verm);font-size:.88rem;min-height:1.2em}
+  /* Barra do topo */
+  .barra{position:fixed;inset:0 0 auto;z-index:20;height:62px;background:#fff;border-bottom:1px solid var(--linha);display:flex;align-items:center;gap:12px;padding:0 16px}
+  .barra .marca{display:flex;align-items:center;gap:10px;min-width:0}
+  .barra .marca img{height:30px}
+  .barra .marca b{font-weight:500;font-size:.95rem;white-space:nowrap}
+  .estado{font-size:.85rem;color:var(--mid);display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .estado i{width:9px;height:9px;border-radius:50%;background:var(--verde);flex:none}
+  .estado.pendente i{background:var(--ouro)}.estado.publicando i{background:#2b6cb0;animation:pisca 1s infinite}
+  @keyframes pisca{50%{opacity:.3}}
+  .barra .esp{flex:1}
+  .grupo{display:flex;gap:8px;align-items:center}
+  .alterna{display:flex;background:var(--fundo);border-radius:999px;padding:3px}
+  .alterna button{padding:7px 12px;border-radius:999px;font-size:.85rem}
+  .alterna button.on{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .menu-mais{position:relative}
+  .menu-mais .lista{position:absolute;right:0;top:46px;background:#fff;border:1px solid var(--linha);border-radius:12px;box-shadow:0 20px 40px -20px rgba(0,0,0,.3);padding:6px;min-width:230px;display:grid}
+  .menu-mais .lista button,.menu-mais .lista a{text-align:left;padding:11px 12px;border-radius:8px;font-size:.92rem;color:var(--ink);text-decoration:none}
+  .menu-mais .lista button:hover,.menu-mais .lista a:hover{background:var(--creme)}
+  /* Área do site */
+  .palco{position:fixed;inset:62px 0 0;display:flex;justify-content:center;overflow:hidden}
+  .palco iframe{border:0;width:100%;height:100%;background:#fff;transition:width .3s}
+  .palco.celular{padding:18px 0}
+  .palco.celular iframe{width:390px;border-radius:22px;box-shadow:0 30px 70px -30px rgba(0,0,0,.5);border:8px solid #222}
+  .dica{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:15;background:var(--ink);color:#fff;border-radius:14px;padding:12px 16px 12px 18px;display:flex;gap:14px;align-items:center;font-size:.9rem;box-shadow:0 20px 40px -20px rgba(0,0,0,.5);max-width:calc(100% - 24px)}
+  .dica button{color:#fff;opacity:.8;font-size:1.2rem}
+  .carregando{position:fixed;inset:62px 0 0;display:grid;place-content:center;gap:12px;text-align:center;color:var(--mid);background:var(--fundo);z-index:5}
+  .roda{width:34px;height:34px;border:3px solid var(--linha);border-top-color:var(--ouro);border-radius:50%;margin:0 auto;animation:gira .8s linear infinite}
+  @keyframes gira{to{transform:rotate(360deg)}}
+  /* Gaveta de edição */
+  .fundo-gaveta{position:fixed;inset:0;z-index:30;background:rgba(30,25,20,.25)}
+  .gaveta{position:fixed;z-index:31;top:0;right:0;bottom:0;width:min(440px,100%);background:#fff;display:flex;flex-direction:column;box-shadow:-30px 0 60px -30px rgba(0,0,0,.35);animation:entra .25s ease}
+  @keyframes entra{from{transform:translateX(40px);opacity:0}}
+  .gaveta header{padding:18px 20px 14px;border-bottom:1px solid var(--linha);display:flex;align-items:flex-start;gap:12px}
+  .gaveta header div{flex:1}
+  .gaveta header small{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ouro2)}
+  .gaveta header h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:1.55rem;line-height:1.15}
+  .gaveta header button{font-size:1.5rem;line-height:1;color:var(--mid);padding:4px}
+  .corpo{flex:1;overflow:auto;padding:18px 20px 24px;display:grid;gap:18px;align-content:start}
+  .info{background:var(--creme);border-radius:12px;padding:12px 14px;font-size:.88rem;line-height:1.5;color:#5e4b40}
+  .gaveta footer{padding:14px 20px;border-top:1px solid var(--linha);display:flex;gap:10px;justify-content:flex-end}
+  /* Foto */
+  .foto-campo{display:grid;gap:10px}
+  .foto-prev{position:relative;border-radius:12px;overflow:hidden;background:var(--fundo) center/cover no-repeat;aspect-ratio:4/3;border:1px solid var(--linha)}
+  .foto-prev.logo{aspect-ratio:3/1;background-size:contain;background-color:#fff}
+  .foto-prev video{width:100%;height:100%;object-fit:cover;display:block}
+  .foto-prev .vazio{position:absolute;inset:0;display:grid;place-items:center;color:var(--mid);font-size:.88rem}
+  .foto-prev .env{position:absolute;inset:0;display:grid;place-content:center;gap:8px;background:rgba(255,255,255,.8);font-size:.88rem;text-align:center}
+  .foto-acoes{display:flex;gap:8px;flex-wrap:wrap}
+  /* Listas */
+  .itens{display:grid;gap:10px}
+  .item{border:1px solid var(--linha);border-radius:12px;padding:12px;display:grid;gap:12px;background:#fff}
+  .item-topo{display:flex;align-items:center;gap:8px}
+  .item-topo b{flex:1;font-weight:500;font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .item-topo button{width:34px;height:34px;border-radius:50%;border:1px solid var(--linha);display:grid;place-items:center;font-size:.95rem;background:#fff}
+  .item-topo button:hover{border-color:var(--ouro)}
+  .item-topo button.apagar:hover{border-color:var(--verm);color:var(--verm)}
+  .item-mini{width:44px;height:44px;border-radius:8px;background:var(--fundo) center/cover;flex:none}
+  .add{border:1.5px dashed var(--ouro);color:var(--ouro2);border-radius:12px;padding:12px;font-weight:500}
+  .add:hover{background:var(--creme)}
+  /* Avisos */
+  .aviso{position:fixed;z-index:50;left:50%;top:76px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:.92rem;box-shadow:0 20px 40px -20px rgba(0,0,0,.5);max-width:calc(100% - 24px);text-align:center}
+  .aviso.ok{background:var(--verde)}.aviso.ruim{background:var(--verm)}
+  .janela{position:fixed;inset:0;z-index:60;background:rgba(30,25,20,.45);display:grid;place-items:center;padding:16px}
+  .janela > div{background:#fff;border-radius:18px;padding:24px;width:min(440px,100%);display:grid;gap:14px}
+  .janela h3{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:1.6rem}
+  .janela p{color:#5e4b40;line-height:1.55;font-size:.95rem}
+  .janela .acoes{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+  @media (max-width:820px){
+    .barra{padding:0 10px;gap:8px}
+    .barra .marca b,.alterna,.so-pc{display:none}
+    .estado span{max-width:34vw;overflow:hidden;text-overflow:ellipsis}
+    .btn{padding:10px 14px}
+    .gaveta{top:auto;height:88vh;width:100%;border-radius:18px 18px 0 0;animation:sobe .25s ease}
+    @keyframes sobe{from{transform:translateY(40px);opacity:0}}
+    .palco.celular{padding:0}.palco.celular iframe{width:100%;border:0;border-radius:0;box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- Entrada -->
+<section class="entrada" id="tela-entrada" hidden>
+  <form id="form-entrada">
+    <img src="../fotos/logo.webp" alt="Atelier da Sarah">
+    <h1>Painel do site</h1>
+    <p>Entre para editar textos, fotos e tudo do site.</p>
+    <label class="campo">E-mail<input type="email" name="email" autocomplete="username" required></label>
+    <label class="campo">Senha<input type="password" name="senha" autocomplete="current-password" required></label>
+    <div class="erro" id="erro-entrada"></div>
+    <button class="btn btn-ouro" type="submit">Entrar</button>
+  </form>
+</section>
+
+<!-- Painel -->
+<div id="tela-painel" hidden>
+  <div class="barra">
+    <div class="marca"><img src="../fotos/logo.webp" alt=""><b>Painel do site</b></div>
+    <div class="estado" id="estado"><i></i><span>Tudo publicado</span></div>
+    <div class="esp"></div>
+    <div class="alterna" role="group" aria-label="Ver como">
+      <button class="on" data-vista="pc">💻 Computador</button>
+      <button data-vista="cel">📱 Celular</button>
+    </div>
+    <div class="grupo">
+      <button class="btn btn-linha" id="desfazer" title="Desfazer a última alteração" disabled>↶<span class="so-pc"> Desfazer</span></button>
+      <button class="btn btn-ouro" id="publicar" disabled>Publicar no site</button>
+      <div class="menu-mais">
+        <button class="btn btn-linha" id="mais" aria-label="Mais opções">⋯</button>
+        <div class="lista" id="lista-mais" hidden>
+          <button data-abrir="geral">⚙️ Contato e Google</button>
+          <button data-abrir="textos.menu">☰ Menu do topo</button>
+          <a href="https://atelierdasarah.com.br/" target="_blank" rel="noopener">🌐 Ver o site publicado</a>
+          <button id="descartar">🗑️ Descartar alterações</button>
+          <button id="sair">↪ Sair</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="palco" id="palco"><iframe id="site" title="Site em edição"></iframe></div>
+  <div class="carregando" id="carregando"><div class="roda"></div><span>Abrindo o site…</span></div>
+  <div class="dica" id="dica"><span>Toque em <b>✏️ Editar</b> em qualquer parte do site. Quando terminar, toque em <b>Publicar no site</b>.</span><button aria-label="Fechar dica">×</button></div>
+</div>
+
+<div class="fundo-gaveta" id="fundo-gaveta" hidden></div>
+<aside class="gaveta" id="gaveta" hidden aria-modal="true" role="dialog">
+  <header><div><small id="g-secao"></small><h2 id="g-titulo"></h2></div><button id="g-fechar" aria-label="Fechar">×</button></header>
+  <div class="corpo" id="g-corpo"></div>
+  <footer><button class="btn btn-linha" id="g-cancelar">Cancelar</button><button class="btn btn-escuro" id="g-aplicar">Pronto</button></footer>
+</aside>
+
+<script type="module">
+import { montarPagina } from './pagina.mjs';
+
+// ---------- Configuração ----------
+const P = new URLSearchParams(location.search);
+const API = P.get('api') || (location.hostname === 'localhost' ? 'http://localhost:3123/api/site' : 'https://catalogo-atelier-sarah.vercel.app/api/site');
+const SITE = 'https://atelierdasarah.com.br/';
+const $ = (s, el = document) => el.querySelector(s);
+const ENQ = [['center center', 'Centro'], ['center 25%', 'Mais para cima (mostra o rosto)'], ['center 40%', 'Um pouco para cima'], ['center 70%', 'Mais para baixo (mostra a saia)'], ['30% center', 'Mais para a esquerda'], ['70% center', 'Mais para a direita']];
+
+// ---------- Estado ----------
+let token = localStorage.getItem('painel-token') || '';
+let conteudo = null, original = '', shaBase = '', css = '', vitrine = '', info = {};
+let arquivos = [];               // fotos/vídeos enviados e ainda não publicados
+const previas = {};              // caminho → endereço local da foto (para ver antes de publicar)
+const historico = [];
+let rolagem = 0;
+
+// ---------- Utilidades ----------
+const clonar = (o) => JSON.parse(JSON.stringify(o));
+const pegar = (obj, caminho) => caminho.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+function pôr(obj, caminho, valor) {
+  const partes = caminho.split('.');
+  let o = obj;
+  partes.slice(0, -1).forEach((k, i) => { if (o[k] == null) o[k] = /^\d+$/.test(partes[i + 1]) ? [] : {}; o = o[k]; });
+  o[partes.at(-1)] = valor;
+}
+const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function aviso(texto, tipo = '', ms = 3500) {
+  const a = document.createElement('div'); a.className = 'aviso ' + tipo; a.textContent = texto;
+  document.body.append(a); setTimeout(() => a.remove(), ms);
+}
+function janela(titulo, texto, botoes) {
+  return new Promise((ok) => {
+    const j = document.createElement('div'); j.className = 'janela';
+    j.innerHTML = `<div><h3>${esc(titulo)}</h3><p>${texto}</p><div class="acoes"></div></div>`;
+    botoes.forEach(([rot, val, cls]) => { const b = document.createElement('button'); b.className = 'btn ' + (cls || 'btn-linha'); b.textContent = rot; b.onclick = () => { j.remove(); ok(val); }; $('.acoes', j).append(b); });
+    document.body.append(j);
+  });
+}
+async function api(corpo) {
+  const r = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + token }, body: JSON.stringify(corpo) });
+  const d = await r.json().catch(() => ({ erro: 'O servidor não respondeu' }));
+  if (d.sair) { sair(); throw new Error('Entre novamente'); }
+  if (!r.ok) { const e = new Error(d.erro || 'Erro'); e.dados = d; e.status = r.status; throw e; }
+  return d;
+}
+const urlFoto = (p) => {
+  const c = String(p || '');
+  if (!c) return '';
+  if (previas[c]) return previas[c];
+  if (/^(https?:|blob:|data:)/.test(c)) return c;
+  return SITE + c.replace(/^\//, '');
+};
+
+// ---------- O que cada parte do site edita ----------
+const linha = (c, r, extra = {}) => ({ c, r, t: 'linha', ...extra });
+const texto = (c, r, extra = {}) => ({ c, r, t: 'texto', ...extra });
+const titulo2 = (base) => [linha(base + '.titulo', 'Título (começo)'), linha(base + '.titulo_destaque', 'Final do título (aparece em dourado)')];
+const ocasioes = () => (conteudo.agende?.ocasioes || []).filter(Boolean);
+
+const PARTES = {
+  'marca.logo': { s: 'Topo e rodapé', t: 'Logo', campos: [{ c: 'marca.logo', r: 'Logo do atelier', t: 'arquivo', logo: true, dica: 'Use a logo com fundo transparente (PNG ou WEBP).' }] },
+  'textos.menu': { s: 'Topo', t: 'Menu', campos: [linha('textos.menu_sarah', 'Item 1 (leva à Sarah)'), linha('textos.menu_colecoes', 'Item 2 (leva às coleções)'), linha('textos.menu_catalogo', 'Item 3 (leva ao catálogo)'), linha('textos.menu_avaliacoes', 'Item 4 (leva às avaliações)'), linha('textos.menu_duvidas', 'Item 5 (leva às dúvidas)'), linha('textos.menu_contato', 'Item 6 (leva ao agendamento)')] },
+  'textos.botao_agendar': { s: 'Topo', t: 'Botão de agendar', campos: [linha('textos.botao_agendar', 'Texto do botão', { dica: 'Aparece no topo do site e logo abaixo do vídeo.' })] },
+  'inicio.video': { s: 'Abertura', t: 'Vídeo de boas-vindas', campos: [{ c: 'inicio.video', r: 'Vídeo', t: 'video', dica: 'MP4 de até 4 MB. Ele toca uma vez, sem som.' }, { c: 'inicio.video_capa', r: 'Imagem que aparece enquanto o vídeo carrega', t: 'arquivo' }] },
+  'inicio.chamada': { s: 'Abertura', t: 'Frase pequena', campos: [linha('inicio.chamada', 'Frase pequena (em dourado, letras espaçadas)')] },
+  'inicio.texto': { s: 'Abertura', t: 'Texto de apresentação', campos: [texto('inicio.texto', 'Texto')] },
+  'textos.botoes_topo': { s: 'Abertura', t: 'Botões', campos: [linha('textos.botao_agendar', 'Botão escuro (agendar)'), linha('textos.botao_duvidas', 'Botão claro (dúvidas)')] },
+  'inicio.premio': { s: 'Abertura', t: 'Prêmio', campos: [linha('inicio.premio_titulo', 'Título do prêmio', { dica: 'Deixe vazio para esconder o prêmio.' }), linha('inicio.premio_texto', 'Texto pequeno do prêmio')] },
+  'sobre.foto_principal': { s: 'Sobre a Sarah', t: 'Foto grande', campos: [{ c: 'sobre.foto_principal', r: 'Foto grande', t: 'foto' }] },
+  'sobre.foto_menor': { s: 'Sobre a Sarah', t: 'Foto pequena', campos: [{ c: 'sobre.foto_menor', r: 'Foto pequena', t: 'foto' }] },
+  'sobre.chamada': { s: 'Sobre a Sarah', t: 'Frase pequena', campos: [linha('sobre.chamada', 'Frase pequena')] },
+  'sobre.titulo': { s: 'Sobre a Sarah', t: 'Título', campos: titulo2('sobre') },
+  'sobre.paragrafos': { s: 'Sobre a Sarah', t: 'Texto sobre a Sarah', lista: { c: 'sobre.paragrafos', simples: 'texto', nome: (v, i) => `Parágrafo ${i + 1}`, novo: '', rotuloAdd: 'Adicionar parágrafo' } },
+  'textos.assinatura': { s: 'Sobre a Sarah', t: 'Assinatura', campos: [linha('textos.assinatura', 'Assinatura (letra cursiva)')] },
+  'sobre.numeros': { s: 'Sobre a Sarah', t: 'Números', lista: { c: 'sobre.numeros', campos: [linha('valor', 'Número ou emoji'), linha('rotulo', 'Legenda')], nome: (v) => `${v.valor || ''} ${v.rotulo || ''}`, novo: { valor: '', rotulo: '' }, rotuloAdd: 'Adicionar número' } },
+  'colecoes.chamada': { s: 'Coleções', t: 'Frase pequena', campos: [linha('colecoes.chamada', 'Frase pequena')] },
+  'colecoes.titulo': { s: 'Coleções', t: 'Título', campos: titulo2('colecoes') },
+  'colecoes.texto': { s: 'Coleções', t: 'Texto', campos: [texto('colecoes.texto', 'Texto')] },
+  'colecoes.cards': { s: 'Coleções', t: 'Coleções (cartões)', antes: [linha('colecoes.botao_cartao', 'Texto pequeno embaixo de cada cartão')], lista: { c: 'colecoes.cards', campos: () => [linha('nome', 'Nome da coleção'), texto('texto', 'Texto'), { c: 'ocasiao', r: 'Ao clicar, o agendamento já vem com', t: 'escolha', opcoes: ocasioes() }, { c: 'foto', r: 'Foto', t: 'foto' }], nome: (v) => v.nome || 'Coleção', mini: (v) => v.foto?.imagem, novo: () => ({ nome: 'Nova coleção', texto: '', ocasiao: ocasioes()[0] || '', foto: { imagem: '', enquadramento: 'center center' } }), rotuloAdd: 'Adicionar coleção' } },
+  'colecoes.botao': { s: 'Coleções', t: 'Botão', campos: [linha('colecoes.botao', 'Texto do botão')] },
+  'catalogo.chamada': { s: 'Catálogo', t: 'Frase pequena', campos: [linha('catalogo.chamada', 'Frase pequena')] },
+  'catalogo.titulo': { s: 'Catálogo', t: 'Título', campos: titulo2('catalogo') },
+  'catalogo.texto': { s: 'Catálogo', t: 'Texto', campos: [texto('catalogo.texto', 'Texto')] },
+  'catalogo.pecas': { s: 'Catálogo', t: 'Peças do catálogo', aviso: 'As peças (fotos, nomes e preços) são cadastradas no catálogo, que tem um painel próprio. Aqui aparecem os destaques dele.' },
+  'catalogo.botao': { s: 'Catálogo', t: 'Botão', campos: [linha('catalogo.botao', 'Texto do botão', { dica: 'O número de peças é colocado sozinho no final.' })] },
+  'galeria.chamada': { s: 'Destaques', t: 'Frase pequena', campos: [linha('galeria.chamada', 'Frase pequena')] },
+  'galeria.titulo': { s: 'Destaques', t: 'Título', campos: titulo2('galeria') },
+  'galeria.fotos': { s: 'Destaques', t: 'Fotos da galeria', lista: { c: 'galeria.fotos', simples: 'foto', nome: (v, i) => `Foto ${i + 1}`, mini: (v) => v.imagem, novo: () => ({ imagem: '', enquadramento: 'center center' }), rotuloAdd: 'Adicionar foto', dica: 'O ideal é 4 ou 8 fotos.' } },
+  'galeria.botao': { s: 'Destaques', t: 'Botão', campos: [linha('galeria.botao', 'Texto do botão (leva ao Instagram)')] },
+  'como_funciona.chamada': { s: 'Como funciona', t: 'Frase pequena', campos: [linha('como_funciona.chamada', 'Frase pequena')] },
+  'como_funciona.titulo': { s: 'Como funciona', t: 'Título', campos: titulo2('como_funciona') },
+  'como_funciona.passos': { s: 'Como funciona', t: 'Passos', lista: { c: 'como_funciona.passos', campos: [linha('titulo', 'Título do passo'), texto('texto', 'Texto')], nome: (v) => v.titulo || 'Passo', novo: { titulo: '', texto: '' }, rotuloAdd: 'Adicionar passo' } },
+  'avaliacoes.chamada': { s: 'Avaliações', t: 'Frase pequena', campos: [linha('avaliacoes.chamada', 'Frase pequena')] },
+  'avaliacoes.titulo': { s: 'Avaliações', t: 'Título', campos: titulo2('avaliacoes') },
+  'avaliacoes.depoimentos': { s: 'Avaliações', t: 'Depoimentos de clientes', info: 'Use somente depoimentos reais, com autorização da cliente. Sem depoimentos, aparece o texto com o botão para o Instagram.', lista: { c: 'avaliacoes.depoimentos', campos: [texto('texto', 'Depoimento'), linha('nome', 'Nome da cliente'), linha('detalhe', 'Detalhe (ex.: Noiva, 2026)')], nome: (v) => v.nome || 'Depoimento', novo: { texto: '', nome: '', detalhe: '' }, rotuloAdd: 'Adicionar depoimento' }, depois: [texto('avaliacoes.texto', 'Texto quando não houver depoimentos'), linha('avaliacoes.botao', 'Botão do Instagram')] },
+  'avaliacoes.texto': { s: 'Avaliações', t: 'Texto das avaliações', campos: [texto('avaliacoes.texto', 'Texto'), linha('avaliacoes.botao', 'Botão do Instagram')] },
+  'avaliacoes.botao': { s: 'Avaliações', t: 'Botão', campos: [linha('avaliacoes.botao', 'Texto do botão')] },
+  'avaliacoes.numeros': { s: 'Avaliações', t: 'Números', lista: { c: 'avaliacoes.numeros', campos: [linha('valor', 'Número ou emoji'), linha('rotulo', 'Legenda')], nome: (v) => `${v.valor || ''} ${v.rotulo || ''}`, novo: { valor: '', rotulo: '' }, rotuloAdd: 'Adicionar número' } },
+  'duvidas_secao.chamada': { s: 'Dúvidas', t: 'Frase pequena', campos: [linha('duvidas_secao.chamada', 'Frase pequena')] },
+  'duvidas_secao.titulo': { s: 'Dúvidas', t: 'Título', campos: titulo2('duvidas_secao') },
+  'duvidas': { s: 'Dúvidas', t: 'Perguntas e respostas', lista: { c: 'duvidas', campos: [linha('pergunta', 'Pergunta'), texto('resposta', 'Resposta')], nome: (v) => v.pergunta || 'Pergunta', novo: { pergunta: '', resposta: '' }, rotuloAdd: 'Adicionar pergunta' } },
+  'duvidas_secao.cta': { s: 'Dúvidas', t: 'Chamada final', campos: [linha('duvidas_secao.cta_texto', 'Frase'), linha('duvidas_secao.cta_botao', 'Botão (abre o WhatsApp)')] },
+  'agende.chamada': { s: 'Agendamento', t: 'Frase pequena', campos: [linha('agende.chamada', 'Frase pequena')] },
+  'agende.titulo': { s: 'Agendamento', t: 'Título', campos: titulo2('agende') },
+  'agende.texto': { s: 'Agendamento', t: 'Texto', campos: [texto('agende.texto', 'Texto')] },
+  'contato.endereco': { s: 'Agendamento', t: 'Endereço', campos: [linha('contato.endereco', 'Endereço completo', { dica: 'Aparece com o link "Ver no mapa".' }), linha('contato.cidade', 'Cidade (aparece no rodapé)')] },
+  'agende.horario': { s: 'Agendamento', t: 'Horário', campos: [linha('agende.horario', 'Horário de atendimento')] },
+  'contato.instagram_usuario': { s: 'Agendamento', t: 'Instagram', campos: [linha('contato.instagram_usuario', 'Usuário (ex.: @atelierdasarah)'), linha('contato.instagram', 'Link do Instagram')] },
+  'agende.ocasioes': { s: 'Agendamento', t: 'Opções de ocasião', lista: { c: 'agende.ocasioes', simples: 'linha', nome: (v) => v || 'Opção', novo: '', rotuloAdd: 'Adicionar opção' } },
+  'agende.form': { s: 'Agendamento', t: 'Formulário de agendamento', info: 'Textos do formulário. As respostas chegam no WhatsApp da Sarah.', campos: [
+    linha('agende.form.titulo', 'Título'), linha('agende.form.sub', 'Frase abaixo do título'), linha('agende.form.nome', 'Pergunta do nome'), linha('agende.form.nome_dica', 'Exemplo dentro do campo do nome'),
+    linha('agende.form.ocasiao', 'Pergunta da ocasião'), linha('agende.form.data_evento', 'Pergunta da data do evento'), linha('agende.form.data_prova', 'Pergunta do dia da prova'),
+    linha('agende.form.pessoas', 'Pergunta das pessoas'), linha('agende.form.total', 'Campo: total'), linha('agende.form.trajes', 'Campo: vão provar trajes'), linha('agende.form.acompanhar', 'Campo: só acompanhar'),
+    linha('agende.form.cor_pergunta', 'Pergunta da cor'), linha('agende.form.cor_sim', 'Resposta: sim'), linha('agende.form.cor_nao', 'Resposta: não'), linha('agende.form.cor_qual', 'Pergunta: qual cor'), linha('agende.form.cor_dica', 'Exemplo de cor'),
+    linha('agende.form.mensagem', 'Pergunta da mensagem'), linha('agende.form.mensagem_dica', 'Exemplo da mensagem'), linha('agende.form.botao', 'Botão de enviar')] },
+  'contato.redes': { s: 'Rodapé', t: 'Redes sociais', campos: [linha('contato.instagram', 'Link do Instagram'), linha('contato.whatsapp', 'WhatsApp (só números, com 55 + DDD)', { dica: 'Ex.: 5512996124117. Todos os botões de WhatsApp usam este número.' })] },
+  'textos.rodape': { s: 'Rodapé', t: 'Nome no rodapé', campos: [linha('textos.rodape', 'Nome'), linha('contato.cidade', 'Cidade')] },
+  'geral': { s: 'Configurações', t: 'Contato e Google', campos: [linha('contato.whatsapp', 'WhatsApp (só números, com 55 + DDD)'), linha('contato.instagram', 'Link do Instagram'), linha('contato.instagram_usuario', 'Usuário do Instagram'), linha('contato.endereco', 'Endereço completo'), linha('contato.cidade', 'Cidade'), linha('seo.titulo', 'Nome do site (aparece no Google e na aba)'), texto('seo.descricao', 'Descrição no Google'), { c: 'inicio.foto', r: 'Foto que aparece quando o link é compartilhado no WhatsApp', t: 'foto' }] },
+};
+// Itens de lista: "colecoes.cards.2" usa os campos da lista "colecoes.cards"
+function parteDe(id) {
+  if (PARTES[id]) return { id, ...PARTES[id] };
+  const m = id.match(/^(.*)\.(\d+)$/);
+  if (m && PARTES[m[1]]?.lista) return { id, item: Number(m[2]), base: m[1], ...PARTES[m[1]] };
+  return { id, s: 'Site', t: 'Texto', campos: [linha(id, 'Texto')] };
+}
+const rotuloPino = (id) => {
+  const p = parteDe(id);
+  if (p.item != null) return '✏️ Editar este item';
+  const nome = p.t.charAt(0).toLowerCase() + p.t.slice(1);
+  if (p.lista) return '☰ Editar ' + nome;
+  return '✏️ Editar ' + nome;
+};
+
+// ---------- Mostra o site em modo de edição ----------
+const CSS_EDICAO = `
+  .modo-edicao #topo{position:absolute}
+  .modo-edicao .logo-img img{opacity:1!important}
+  .modo-edicao [data-ed]{cursor:pointer}
+  .modo-edicao [data-ed].ed-sobre{outline:2px dashed #b8975a;outline-offset:4px;border-radius:4px}
+  .modo-edicao #cor-traje,.modo-edicao #qual-cor{display:grid!important}
+  .modo-edicao .depo{display:block!important;opacity:1!important;position:relative!important;transform:none!important;margin-bottom:26px}
+  .modo-edicao .pontos,.modo-edicao .whats{display:none!important}
+  #ed-camada{position:absolute;left:0;top:0;width:0;height:0;z-index:2147483000}
+  .ed-pino{position:absolute;font:500 11px/1 Jost,system-ui,sans-serif;letter-spacing:0;text-transform:none;background:#2b2622;color:#fff;border:1.5px solid #fff;border-radius:999px;padding:5px 10px;box-shadow:0 6px 16px -6px rgba(0,0,0,.5);cursor:pointer;white-space:nowrap}
+  .ed-pino:hover{background:#b8975a}
+  .ed-pino.lista{background:#b8975a}
+  .ed-pino.lista:hover{background:#9a7b42}
+  .ed-pino.item{background:#fff;color:#2b2622;border-color:#b8975a}
+`;
+function montar() {
+  const html = montarPagina(conteudo, { css: css + CSS_EDICAO, edicao: true, vitrine, totalPecas: info.totalPecas || 0, temCatalogo: !!info.temCatalogo, urlFoto });
+  const ifr = $('#site');
+  try { rolagem = ifr.contentWindow?.scrollY || rolagem; } catch {}
+  ifr.srcdoc = html;
+}
+$('#site').addEventListener('load', () => {
+  const ifr = $('#site'), doc = ifr.contentDocument, win = ifr.contentWindow;
+  if (!doc?.body) return;
+  $('#carregando').hidden = true;
+  win.scrollTo(0, rolagem);
+  const camada = doc.createElement('div'); camada.id = 'ed-camada'; doc.body.append(camada);
+  const alvos = [...doc.querySelectorAll('[data-ed]')];
+  const pinos = alvos.map((el) => {
+    const id = el.dataset.ed, p = parteDe(id);
+    const b = doc.createElement('button'); b.type = 'button';
+    b.className = 'ed-pino' + (p.item != null ? ' item' : p.lista ? ' lista' : '');
+    b.textContent = rotuloPino(id);
+    b.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); abrir(id); });
+    b.addEventListener('mouseenter', () => el.classList.add('ed-sobre'));
+    b.addEventListener('mouseleave', () => el.classList.remove('ed-sobre'));
+    camada.append(b);
+    return { el, b, p };
+  });
+  function posicionar() {
+    pinos.forEach(({ el, b, p }) => {
+      const r = el.getBoundingClientRect();
+      const visivel = r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden';
+      b.style.display = visivel ? '' : 'none';
+      if (!visivel) return;
+      const x = win.scrollX, y = win.scrollY, w = b.offsetWidth, larg = doc.documentElement.clientWidth;
+      // caixa do conteúdo de verdade (onde o texto está), não a largura toda do bloco
+      let c = r;
+      if (!/^(VIDEO|IMG)$/.test(el.tagName) && !el.classList.contains('foto')) {
+        const rg = doc.createRange(); rg.selectNodeContents(el); const rr = rg.getBoundingClientRect();
+        if (rr.width > 0 && rr.height > 0) c = rr;
+      }
+      const prende = (v) => Math.max(4, Math.min(v, larg - w - 4)) + 'px';
+      if (p.lista && p.item == null) { b.style.left = prende(r.right + x - w); b.style.top = Math.max(4, r.top + y - 14) + 'px'; }
+      else if (el.tagName === 'VIDEO' || el.classList.contains('foto')) { b.style.left = prende(r.left + x + 12); b.style.top = (r.top + y + 12) + 'px'; }
+      else { b.style.left = prende(c.left + x); b.style.top = (Math.max(r.bottom, c.bottom) + y - 4) + 'px'; }
+    });
+  }
+  posicionar();
+  new win.ResizeObserver(posicionar).observe(doc.body);
+  win.addEventListener('resize', posicionar);
+  win.addEventListener('load', posicionar);
+  setInterval(posicionar, 1200);
+  // Clique em qualquer parte editável abre a edição; links não saem do painel
+  doc.addEventListener('click', (e) => {
+    if (e.target.closest('.ed-pino')) return;
+    const alvo = e.target.closest('[data-ed]');
+    if (e.target.closest('a,button,summary,label,input,select,textarea') || alvo) e.preventDefault();
+    if (alvo && !e.target.closest('input,select,textarea')) abrir(alvo.dataset.ed);
+  }, true);
+  doc.addEventListener('mouseover', (e) => { const a = e.target.closest('[data-ed]'); doc.querySelectorAll('.ed-sobre').forEach((x) => x !== a && x.classList.remove('ed-sobre')); if (a) a.classList.add('ed-sobre'); });
+});
+
+// ---------- Gaveta de edição ----------
+let rascunho = null, parteAtual = null;
+function controle(campo, alvo, raiz = '') {
+  const caminho = raiz ? `${raiz}.${campo.c}` : campo.c;
+  const valor = pegar(alvo, caminho);
+  const box = document.createElement('div');
+  if (campo.t === 'linha' || campo.t === 'texto' || campo.t === 'escolha') {
+    box.className = 'campo';
+    box.innerHTML = `<span>${esc(campo.r)}</span>`;
+    let el;
+    if (campo.t === 'texto') { el = document.createElement('textarea'); }
+    else if (campo.t === 'escolha') {
+      el = document.createElement('select');
+      const ops = [...new Set([...(campo.opcoes || []), valor].filter((x) => x != null && x !== ''))];
+      el.innerHTML = ops.map((o) => `<option>${esc(o)}</option>`).join('');
+    } else el = document.createElement('input');
+    el.value = valor ?? '';
+    if (campo.t === 'texto') {
+      const cresce = () => { el.style.height = 'auto'; el.style.height = Math.min(420, el.scrollHeight + 4) + 'px'; };
+      el.addEventListener('input', cresce); setTimeout(cresce, 0);
+    }
+    el.addEventListener('input', () => pôr(alvo, caminho, el.value));
+    el.addEventListener('change', () => pôr(alvo, caminho, el.value));
+    box.append(el);
+    if (campo.dica) box.insertAdjacentHTML('beforeend', `<small>${esc(campo.dica)}</small>`);
+    return box;
+  }
+  // Foto (com enquadramento), arquivo (só a imagem) ou vídeo
+  box.className = 'campo foto-campo';
+  const ehObjeto = campo.t === 'foto';
+  const caminhoImg = ehObjeto ? `${caminho}.imagem` : caminho;
+  if (ehObjeto && (valor == null || typeof valor !== 'object')) pôr(alvo, caminho, { imagem: typeof valor === 'string' ? valor : '', enquadramento: 'center center' });
+  box.innerHTML = `<span>${esc(campo.r)}</span><div class="foto-prev${campo.logo ? ' logo' : ''}"></div><div class="foto-acoes"><button type="button" class="btn btn-escuro trocar">${campo.t === 'video' ? '🎬 Trocar vídeo' : '📷 Trocar foto'}</button></div>`;
+  const prev = $('.foto-prev', box);
+  const desenhar = () => {
+    const u = urlFoto(pegar(alvo, caminhoImg));
+    prev.style.backgroundImage = '';
+    prev.innerHTML = '';
+    if (!u) { prev.innerHTML = '<div class="vazio">Sem foto</div>'; return; }
+    if (campo.t === 'video') prev.innerHTML = `<video src="${esc(u)}" muted playsinline autoplay loop></video>`;
+    else { prev.style.backgroundImage = `url("${u}")`; if (ehObjeto) prev.style.backgroundPosition = pegar(alvo, `${caminho}.enquadramento`) || 'center center'; }
+  };
+  desenhar();
+  const entrada = document.createElement('input'); entrada.type = 'file'; entrada.hidden = true;
+  entrada.accept = campo.t === 'video' ? 'video/mp4' : 'image/*';
+  box.append(entrada);
+  $('.trocar', box).onclick = () => entrada.click();
+  entrada.onchange = async () => {
+    const arq = entrada.files[0]; entrada.value = '';
+    if (!arq) return;
+    prev.insertAdjacentHTML('beforeend', '<div class="env"><div class="roda"></div>Enviando…</div>');
+    try {
+      const { caminho: novo, local } = await enviarArquivo(arq, { video: campo.t === 'video', logo: campo.logo });
+      pôr(alvo, caminhoImg, '/' + novo);
+      previas['/' + novo] = local;
+      desenhar();
+    } catch (e) { aviso(e.message, 'ruim', 6000); desenhar(); }
+  };
+  if (ehObjeto) {
+    const sel = document.createElement('label'); sel.className = 'campo';
+    sel.innerHTML = `<span>Qual parte da foto aparece quando ela for cortada</span><select>${ENQ.map(([v, r]) => `<option value="${v}">${r}</option>`).join('')}</select>`;
+    const s = $('select', sel);
+    s.value = pegar(alvo, `${caminho}.enquadramento`) || 'center center';
+    s.onchange = () => { pôr(alvo, `${caminho}.enquadramento`, s.value); desenhar(); };
+    box.append(sel);
+  }
+  if (campo.dica) box.insertAdjacentHTML('beforeend', `<small>${esc(campo.dica)}</small>`);
+  return box;
+}
+
+function blocoLista(p, alvo) {
+  const L = p.lista;
+  const wrap = document.createElement('div'); wrap.className = 'itens';
+  const camposDe = () => (typeof L.campos === 'function' ? L.campos() : L.campos);
+  const desenhar = (abertoIdx = -1) => {
+    wrap.innerHTML = '';
+    const arr = pegar(alvo, L.c) || [];
+    if (!Array.isArray(pegar(alvo, L.c))) pôr(alvo, L.c, arr);
+    arr.forEach((v, i) => {
+      const it = document.createElement('div'); it.className = 'item';
+      const mini = L.mini ? urlFoto(L.mini(v)) : '';
+      it.innerHTML = `<div class="item-topo">${L.mini ? `<span class="item-mini" style="background-image:url('${esc(mini)}')"></span>` : ''}<b>${esc(L.nome(v, i))}</b>
+        <button type="button" title="Subir" data-a="sobe">↑</button><button type="button" title="Descer" data-a="desce">↓</button><button type="button" class="apagar" title="Remover" data-a="tira">🗑</button></div>`;
+      const corpo = document.createElement('div'); corpo.style.display = 'grid'; corpo.style.gap = '14px';
+      if (L.simples === 'texto') corpo.append(controle({ c: String(i), r: 'Texto', t: 'texto' }, alvo, L.c));
+      else if (L.simples === 'linha') corpo.append(controle({ c: String(i), r: 'Texto', t: 'linha' }, alvo, L.c));
+      else if (L.simples === 'foto') corpo.append(controle({ c: String(i), r: 'Foto', t: 'foto' }, alvo, L.c));
+      else camposDe().forEach((cp) => corpo.append(controle(cp, alvo, `${L.c}.${i}`)));
+      it.append(corpo);
+      it.querySelectorAll('[data-a]').forEach((b) => b.onclick = async () => {
+        const a = b.dataset.a, lista = pegar(alvo, L.c);
+        if (a === 'tira') {
+          if (await janela('Remover?', `Remover <b>${esc(L.nome(v, i))}</b> do site?`, [['Cancelar', false], ['Remover', true, 'btn-escuro']])) { lista.splice(i, 1); desenhar(); }
+          return;
+        }
+        const j = a === 'sobe' ? i - 1 : i + 1;
+        if (j < 0 || j >= lista.length) return;
+        [lista[i], lista[j]] = [lista[j], lista[i]]; desenhar(j);
+      });
+      wrap.append(it);
+      if (abertoIdx === i) setTimeout(() => it.scrollIntoView({ block: 'center', behavior: 'smooth' }), 50);
+    });
+    const add = document.createElement('button'); add.type = 'button'; add.className = 'add'; add.textContent = '＋ ' + (L.rotuloAdd || 'Adicionar');
+    add.onclick = () => { const novo = typeof L.novo === 'function' ? L.novo() : clonar(L.novo); pegar(alvo, L.c).push(novo); desenhar(pegar(alvo, L.c).length - 1); };
+    wrap.append(add);
+  };
+  desenhar(p.item ?? -1);
+  return wrap;
+}
+
+function abrir(id) {
+  parteAtual = parteDe(id);
+  rascunho = clonar(conteudo);
+  const p = parteAtual;
+  $('#g-secao').textContent = p.s;
+  $('#g-titulo').textContent = p.item != null ? `${p.t} · item ${p.item + 1}` : p.t;
+  const corpo = $('#g-corpo'); corpo.innerHTML = '';
+  if (p.info) corpo.insertAdjacentHTML('beforeend', `<div class="info">${esc(p.info)}</div>`);
+  if (p.aviso) { corpo.insertAdjacentHTML('beforeend', `<div class="info">${esc(p.aviso)}</div>`); }
+  (p.antes || []).forEach((c) => corpo.append(controle(c, rascunho)));
+  (p.campos || []).forEach((c) => corpo.append(controle(c, rascunho)));
+  if (p.lista) {
+    if (p.lista.dica) corpo.insertAdjacentHTML('beforeend', `<div class="info">${esc(p.lista.dica)}</div>`);
+    corpo.append(blocoLista(p, rascunho));
+  }
+  (p.depois || []).forEach((c) => corpo.append(controle(c, rascunho)));
+  $('#g-aplicar').hidden = !!p.aviso && !p.campos && !p.lista;
+  $('#gaveta').hidden = false; $('#fundo-gaveta').hidden = false;
+  setTimeout(() => corpo.querySelector('input:not([type=file]),textarea')?.focus({ preventScroll: true }), 80);
+}
+function fechar() { $('#gaveta').hidden = true; $('#fundo-gaveta').hidden = true; rascunho = null; }
+$('#g-fechar').onclick = fechar; $('#g-cancelar').onclick = fechar; $('#fundo-gaveta').onclick = fechar;
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#gaveta').hidden) fechar(); });
+$('#g-aplicar').onclick = () => {
+  if (!rascunho) return fechar();
+  const novo = JSON.stringify(rascunho);
+  if (novo !== JSON.stringify(conteudo)) {
+    historico.push(JSON.stringify(conteudo));
+    conteudo = JSON.parse(novo);
+    mudou();
+    montar();
+  }
+  fechar();
+};
+
+// ---------- Enviar foto / vídeo ----------
+async function prepararImagem(arq, { logo }) {
+  if (logo && /^image\/(png|webp)$/.test(arq.type) && arq.size < 1.5e6) return arq;
+  const img = await createImageBitmap(arq).catch(() => null);
+  if (!img) throw new Error('Não consegui abrir esta foto. Tente outra (JPG ou PNG).');
+  const max = logo ? 1400 : 1600, k = Math.min(1, max / Math.max(img.width, img.height));
+  const cv = document.createElement('canvas'); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+  cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+  let b = await new Promise((ok) => cv.toBlob(ok, 'image/webp', 0.8));
+  if (!b || b.type !== 'image/webp') b = await new Promise((ok) => cv.toBlob(ok, logo ? 'image/png' : 'image/jpeg', 0.86));
+  return b;
+}
+async function enviarArquivo(arq, { video, logo }) {
+  let corpo = arq;
+  if (video) {
+    if (arq.type !== 'video/mp4') throw new Error('O vídeo precisa ser MP4.');
+    if (arq.size > 4.3 * 1024 * 1024) throw new Error('Vídeo grande demais (máximo 4 MB).');
+  } else corpo = await prepararImagem(arq, { logo });
+  const r = await fetch(API + '?acao=arquivo', { method: 'POST', headers: { 'content-type': corpo.type, authorization: 'Bearer ' + token }, body: corpo });
+  const d = await r.json().catch(() => ({ erro: 'O servidor não respondeu' }));
+  if (d.sair) { sair(); throw new Error('Entre novamente'); }
+  if (!r.ok) throw new Error(d.erro || 'Não foi possível enviar');
+  arquivos.push({ caminho: d.caminho, sha: d.sha });
+  guardarRascunho();
+  return { caminho: d.caminho, local: URL.createObjectURL(corpo) };
+}
+
+// ---------- Alterações, rascunho e publicação ----------
+function quantas() {
+  if (!original) return 0;
+  const a = JSON.parse(original), b = conteudo;
+  let n = 0;
+  const comparar = (x, y) => { if (JSON.stringify(x) === JSON.stringify(y)) return; if (x && y && typeof x === 'object' && typeof y === 'object' && !Array.isArray(x) && !Array.isArray(y)) { new Set([...Object.keys(x), ...Object.keys(y)]).forEach((k) => comparar(x[k], y[k])); } else n++; };
+  comparar(a, b);
+  return n;
+}
+function mudou() {
+  const n = quantas();
+  const e = $('#estado');
+  e.className = 'estado' + (n ? ' pendente' : '');
+  $('span', e).textContent = n ? `${n} ${n === 1 ? 'alteração' : 'alterações'} para publicar` : 'Tudo publicado';
+  $('#publicar').disabled = !n;
+  $('#desfazer').disabled = !historico.length;
+  guardarRascunho();
+}
+function guardarRascunho() {
+  try {
+    if (quantas()) localStorage.setItem('painel-rascunho', JSON.stringify({ conteudo, arquivos, shaBase, quando: Date.now() }));
+    else localStorage.removeItem('painel-rascunho');
+  } catch {}
+}
+$('#desfazer').onclick = () => { if (!historico.length) return; conteudo = JSON.parse(historico.pop()); mudou(); montar(); };
+$('#descartar').onclick = async () => {
+  $('#lista-mais').hidden = true;
+  if (!quantas()) return aviso('Não há alterações para descartar.');
+  if (!(await janela('Descartar alterações?', 'Tudo o que você mudou e ainda não publicou vai voltar a ser como está no site.', [['Cancelar', false], ['Descartar', true, 'btn-escuro']]))) return;
+  conteudo = JSON.parse(original); historico.length = 0; arquivos = []; mudou(); montar();
+};
+async function publicar(forcar = false) {
+  const n = quantas();
+  if (!forcar && !(await janela('Publicar no site?', `${n} ${n === 1 ? 'alteração vai' : 'alterações vão'} para o site. Ele atualiza em 1 a 2 minutos.`, [['Agora não', false], ['Publicar', true, 'btn-ouro']]))) return;
+  const b = $('#publicar'); b.disabled = true; b.textContent = 'Publicando…';
+  try {
+    const r = await api({ acao: 'publicar', conteudo, arquivos, shaBase, forcar });
+    original = JSON.stringify(conteudo); shaBase = r.sha || shaBase; arquivos = []; historico.length = 0;
+    mudou(); acompanhar(r.commit);
+  } catch (e) {
+    if (e.dados?.conflito) {
+      const ok = await janela('O site mudou em outro lugar', 'Alguém alterou o site depois que você abriu o painel. Se publicar agora, as suas alterações substituem as de lá.', [['Cancelar', false], ['Publicar mesmo assim', true, 'btn-escuro']]);
+      b.textContent = 'Publicar no site'; mudou();
+      if (ok) return publicar(true);
+      return;
+    }
+    aviso(e.message, 'ruim', 7000);
+    mudou();
+  }
+  b.textContent = 'Publicar no site';
+}
+$('#publicar').onclick = () => publicar(false);
+async function acompanhar(commit) {
+  const e = $('#estado'), s = $('span', e);
+  e.className = 'estado publicando'; s.textContent = 'Publicando no site…';
+  aviso('Enviado! O site atualiza em 1 a 2 minutos.', 'ok');
+  for (let i = 0; i < 45; i++) {
+    await new Promise((ok) => setTimeout(ok, 6000));
+    if (quantas()) return; // começou a editar de novo
+    const r = await api({ acao: 'situacao', commit }).catch(() => ({}));
+    if (r.estado === 'pronto') { e.className = 'estado'; s.textContent = '✅ Publicado — já está no site'; aviso('Pronto! As alterações já estão no site.', 'ok', 5000); return; }
+    if (r.estado === 'falhou') { e.className = 'estado pendente'; s.textContent = 'A publicação falhou'; aviso('O site não conseguiu atualizar. Tente publicar de novo em alguns minutos.', 'ruim', 8000); return; }
+  }
+  e.className = 'estado'; s.textContent = 'Enviado — confira o site em alguns minutos';
+}
+addEventListener('beforeunload', (e) => { if (quantas()) { e.preventDefault(); e.returnValue = ''; } });
+
+// ---------- Barra ----------
+document.querySelectorAll('[data-vista]').forEach((b) => b.onclick = () => {
+  document.querySelectorAll('[data-vista]').forEach((x) => x.classList.toggle('on', x === b));
+  $('#palco').classList.toggle('celular', b.dataset.vista === 'cel');
+});
+$('#mais').onclick = (e) => { e.stopPropagation(); $('#lista-mais').hidden = !$('#lista-mais').hidden; };
+document.addEventListener('click', () => { $('#lista-mais').hidden = true; });
+document.querySelectorAll('[data-abrir]').forEach((b) => b.onclick = () => { $('#lista-mais').hidden = true; abrir(b.dataset.abrir); });
+$('#dica button').onclick = () => { $('#dica').hidden = true; try { localStorage.setItem('painel-dica', '1'); } catch {} };
+$('#sair').onclick = () => sair(true);
+function sair(perguntou) {
+  if (perguntou && quantas() && !confirm('Você tem alterações não publicadas. Elas ficam guardadas neste aparelho. Sair mesmo assim?')) return;
+  token = ''; localStorage.removeItem('painel-token');
+  $('#tela-painel').hidden = true; $('#tela-entrada').hidden = false;
+}
+
+// ---------- Entrar e abrir ----------
+$('#form-entrada').onsubmit = async (e) => {
+  e.preventDefault();
+  const f = e.target, b = $('button', f);
+  $('#erro-entrada').textContent = ''; b.disabled = true; b.textContent = 'Entrando…';
+  try {
+    const r = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ acao: 'login', email: f.email.value, senha: f.senha.value }) });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.erro || 'Não foi possível entrar');
+    token = d.token; localStorage.setItem('painel-token', token);
+    f.senha.value = '';
+    await iniciar();
+  } catch (err) { $('#erro-entrada').textContent = err.message; }
+  b.disabled = false; b.textContent = 'Entrar';
+};
+
+async function iniciar() {
+  $('#tela-entrada').hidden = true; $('#tela-painel').hidden = false; $('#carregando').hidden = false;
+  if (localStorage.getItem('painel-dica')) $('#dica').hidden = true;
+  try {
+    const [rCss, rVit, rInfo, dados] = await Promise.all([
+      fetch('./estilo.css').then((r) => r.text()),
+      fetch('./vitrine.html').then((r) => (r.ok ? r.text() : '')),
+      fetch('./info.json').then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
+      api({ acao: 'carregar' }),
+    ]);
+    css = rCss; vitrine = rVit; info = rInfo;
+    conteudo = dados.conteudo; original = JSON.stringify(conteudo); shaBase = dados.sha;
+    // Rascunho guardado neste aparelho?
+    const r = JSON.parse(localStorage.getItem('painel-rascunho') || 'null');
+    if (r && JSON.stringify(r.conteudo) !== original) {
+      const quando = new Date(r.quando).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+      if (await janela('Continuar de onde parou?', `Você tem alterações que não foram publicadas (de ${quando}).`, [['Começar do zero', false], ['Continuar', true, 'btn-ouro']])) {
+        conteudo = r.conteudo; arquivos = r.arquivos || [];
+        if (r.shaBase && r.shaBase !== shaBase) aviso('Atenção: o site mudou depois desse rascunho. Confira antes de publicar.', '', 7000);
+      } else localStorage.removeItem('painel-rascunho');
+    }
+    mudou();
+    montar();
+  } catch (e) {
+    $('#carregando').innerHTML = `<span style="color:var(--verm)">${esc(e.message)}</span><button class="btn btn-linha" onclick="location.reload()">Tentar de novo</button>`;
+  }
+}
+
+if (token) iniciar(); else $('#tela-entrada').hidden = false;
+</script>
+</body>
+</html>
